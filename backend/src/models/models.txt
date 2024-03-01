@@ -1,0 +1,114 @@
+member:
+    - _id
+    - member type
+    - surname (as per latest passport)
+    - givenName (as per latest passport)
+    - birthDate:
+    - birthPlace:
+    - nationality:
+    - fatherName:
+        - surname
+        - givenName
+    - motherName:
+        - surname
+        - givenName
+    - spouseName:
+        - surname
+        - givenName
+    - education:
+        - name of institute
+        - course
+        - yearfrom
+        - yearto
+    - joiningDate:
+    - address:
+        - line1
+        - line2
+        - line3
+    - documents:
+        - Identity
+        - MemberCertificate
+        - others
+
+passport:
+    - _id
+    - parentMember_id
+    - country
+    - passportNo
+    - dateOfIssue
+    - dateOfExpiry
+    - placeOfIssue
+    - fileNo
+    - previousPassportNo
+    - previousPassportDateOfIssue(optional)
+    - previousPassportPlaceOfIssue(optional)
+    - documents:
+        - coverPage
+        - firstPage
+        - LastPage
+        - pdf
+
+visa:
+    - parentPassport_id
+    - passportNo
+    - country
+    - visaType
+    - category
+    - noOfEntry
+    - visaNo
+    - validFrom/issueDate:
+    - validUntil/expiryDate:
+    - duration: expiryDate-issueDate
+    - annotation
+    - documents:
+        - visaSticker
+
+travelDetail:
+    - _id
+    - flightNo
+    - departureAirport 
+    - arrivalAirport
+    - transits
+    - documents:
+        - flightTicket
+
+travelPlan:
+    - _id
+    - country
+    - dateOfDeparture
+    - dateOfArrival
+    - members:
+        - member_id*
+    - visaApplications_id
+
+visaApplication:
+    - _id
+    - member_id
+    - passportNo
+    - country
+    - dateOfDeparture
+    - dateOfArrival
+    - applicationNo/Link
+    - password
+    - securityQuestions:
+        - Question1
+        - Question2
+        - Question3
+    - documents:
+        - sponsorshipLetter
+        - invitationLetter
+        - membershipCertificate
+        - applicationForm
+        - bankStatements
+
+organization:
+    - organization_id
+    - organization name
+
+user:
+    - user_id
+    - organization_id
+    - username
+    - email
+    - pwdHash
+    - accessLevel
