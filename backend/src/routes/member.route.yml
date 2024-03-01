@@ -210,13 +210,13 @@ definitions:
           others:
             type: string
             description: Other documents
-    # required:
-    #   - memberType
-    #   - surname
-    #   - givenName
-    #   - birthDate
-    #   - birthPlace
-    #   - nationality
-    #   - fatherName
-    #   - motherName
-    #   - joiningDate
+    required:
+      - memberType
+      - surname
+      - givenName
+      - birthDate
+      - birthPlace
+      - nationality
+      - fatherName
+      - motherName
+      - joiningDate
