@@ -1,0 +1,141 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Visa API
+  description: API for managing visas
+tags:
+  - name: Visas
+    description: Operations about visas
+paths:
+  /visas:
+    get:
+      tags:
+        - Visas
+      summary: Get all visas
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Visa"
+        500:
+          description: Internal server error
+    post:
+      tags:
+        - Visas
+      summary: Create a new visa
+      parameters:
+        - name: visa
+          in: body
+          description: Visa object
+          required: true
+          schema:
+            $ref: "#/definitions/Visa"
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/Visa"
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+  /visas/{id}:
+    get:
+      tags:
+        - Visas
+      summary: Get a single visa by ID
+      parameters:
+        - name: id
+          in: path
+          description: Visa ID
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Visa"
+        404:
+          description: Visa not found
+        500:
+          description: Internal server error
+    put:
+      tags:
+        - Visas
+      summary: Update a visa by ID
+      parameters:
+        - name: id
+          in: path
+          description: Visa ID
+          required: true
+          type: string
+        - name: visa
+          in: body
+          description: Visa object
+          required: true
+          schema:
+            $ref: "#/definitions/Visa"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Visa"
+        404:
+          description: Visa not found
+        500:
+          description: Internal server error
+    delete:
+      tags:
+        - Visas
+      summary: Delete a visa by ID
+      parameters:
+        - name: id
+          in: path
+          description: Visa ID
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        404:
+          description: Visa not found
+        500:
+          description: Internal server error
+definitions:
+  Visa:
+    type: object
+    properties:
+      country:
+        type: string
+        required: true
+      type:
+        type: string
+        required: true
+      issueDate:
+        type: string
+        format: date
+        required: true
+      expiryDate:
+        type: string
+        format: date
+        required: true
+      passportNumber:
+        type: string
+        required: true
+      visaNumber:
+        type: string
+        required: true
+    required:
+      - country
+      - type
+      - issueDate
+      - expiryDate
+      - passportNumber
+      - visaNumber

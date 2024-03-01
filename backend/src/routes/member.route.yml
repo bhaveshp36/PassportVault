@@ -1,0 +1,222 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Member API"
+  description: API for managing members
+tags:
+  - name: Members
+    description: Operations about members
+paths:
+  /members:
+    post:
+      tags:
+        - Members
+      summary: Create a new member
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: member
+          description: Member object
+          required: true
+          schema:
+            $ref: "#/definitions/Member"
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/Member"
+        400:
+          description: Bad Request
+    get:
+      tags:
+        - Members
+      summary: Retrieve all members
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Member"
+        500:
+          description: Internal Server Error
+  /members/{id}:
+    get:
+      tags:
+        - Members
+      summary: Retrieve a single member by ID
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: Member ID
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Member"
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    put:
+      tags:
+        - Members
+      summary: Update a member by ID
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: Member ID
+          required: true
+          type: string
+        - in: body
+          name: member
+          description: Member object
+          required: true
+          schema:
+            $ref: "#/definitions/Member"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Member"
+        404:
+          description: Not Found
+        400:
+          description: Bad Request
+    delete:
+      tags:
+        - Members
+      summary: Delete a member by ID
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: Member ID
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Member"
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+definitions:
+  Member:
+    type: object
+    properties:
+      memberType:
+        type: string
+        description: The type of the member
+      surname:
+        type: string
+        description: The surname of the member
+      givenName:
+        type: string
+        description: The given name of the member
+      birthDate:
+        type: string
+        format: date
+        description: The birth date of the member
+      birthPlace:
+        type: string
+        description: The birth place of the member
+      nationality:
+        type: string
+        description: The nationality of the member
+      fatherName:
+        type: object
+        properties:
+          surname:
+            type: string
+            description: The surname of the father
+          givenName:
+            type: string
+            description: The given name of the father
+      motherName:
+        type: object
+        properties:
+          surname:
+            type: string
+            description: The surname of the mother
+          givenName:
+            type: string
+            description: The given name of the mother
+      spouseName:
+        type: object
+        properties:
+          surname:
+            type: string
+            description: The surname of the spouse
+          givenName:
+            type: string
+            description: The given name of the spouse
+      education:
+        type: object
+        properties:
+          nameOfInstitute:
+            type: string
+            description: The name of the institute
+          course:
+            type: string
+            description: The course
+          yearFrom:
+            type: integer
+            description: The year from
+          yearTo:
+            type: integer
+            description: The year to
+      joiningDate:
+        type: string
+        format: date
+        description: The joining date of the member
+      address:
+        type: object
+        properties:
+          line1:
+            type: string
+            description: The first line of the address
+          line2:
+            type: string
+            description: The second line of the address
+          line3:
+            type: string
+            description: The third line of the address
+      documents:
+        type: object
+        properties:
+          identity:
+            type: string
+            description: The identity document
+          memberCertificate:
+            type: string
+            description: The member certificate
+          others:
+            type: string
+            description: Other documents
+    # required:
+    #   - memberType
+    #   - surname
+    #   - givenName
+    #   - birthDate
+    #   - birthPlace
+    #   - nationality
+    #   - fatherName
+    #   - motherName
+    #   - joiningDate
