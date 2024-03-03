@@ -10,7 +10,7 @@ const connectMongo = async () => {
       connect.connection.name
     );
   } catch (error) {
-    console.log(error);
+    console.log(`Database Connection Failed: ${error}`);
     process.exit(1);
   }
 };

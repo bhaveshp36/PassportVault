@@ -1,21 +1,22 @@
 const express = require("express");
 //const cors = require("cors");
 //const errorHandler = require("./middleware/errorhandler");
-const connectMongo = require("./common/mongoConnector");
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require("./common/swaggerDoc");
 
 
-connectMongo(); //call of database function
-
 const app = express();
+
+//app.use(errorHandler);
+//app.use(cors());
 
 //For body Parsing//
 app.use(express.json());
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.get('/', (req, res) => {
-    res.send('Server is running');
+    res.send('Server is running on port 8000. Please visit /docs for API documentation.');
 });
 
 // Routes //
