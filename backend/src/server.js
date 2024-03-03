@@ -1,4 +1,3 @@
-require("dotenv").config(); //importing dotenv module
 const http = require("http");  // http module in node.js
 const app = require("./app");  //importing app.js file
 const server = http.createServer(app); //creating server
