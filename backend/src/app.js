@@ -1,13 +1,11 @@
 const express = require("express");
-//const cors = require("cors");
-//const errorHandler = require("./middleware/errorhandler");
+const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./common/swaggerDoc");
 
 const app = express();
 
-//app.use(errorHandler);
-//app.use(cors());
+app.use(cors());
 
 //For body Parsing//
 app.use(express.json());
@@ -27,7 +25,19 @@ app.use("/members", memberRoutes);
 const passportRoutes = require("./routes/passport.route");
 app.use("/passports", passportRoutes);
 
+const travelDetailRoutes = require("./routes/travelDetail.route");
+app.use("/travelDetails", travelDetailRoutes);
+
+const travelPlanRoutes = require("./routes/travelPlan.route");
+app.use("/travelPlans", travelPlanRoutes);
+
+const userRoutes = require("./routes/user.route");
+app.use("/users", userRoutes);
+
 const visaRoutes = require("./routes/visa.route");
 app.use("/visas", visaRoutes);
+
+const visaApplicationRoutes = require("./routes/visaApplication.route");
+app.use("/visaApplications", visaApplicationRoutes);
 
 module.exports = app;

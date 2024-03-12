@@ -1,5 +1,6 @@
 const express = require("express");
 const passportController = require("../controllers/passport.controller.js");
+
 const router = express.Router();
 
 // Route to create a new passport

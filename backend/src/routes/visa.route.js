@@ -1,20 +1,21 @@
-const express = require('express');
+const express = require("express");
+const VisaController = require("../controllers/visa.controller");
+
 const router = express.Router();
-const VisaController = require('../controllers/visa.controller');
 
 // Get all visas
-router.get('/', VisaController.getAllVisas);
+router.get("/", VisaController.getAllVisas);
 
 // Create a new visa
-router.post('/', VisaController.createVisa);
+router.post("/", VisaController.createVisa);
 
 // Get a single visa by ID
-router.get('/:id', VisaController.getVisaById);
+router.get("/:id", VisaController.getVisaById);
 
 // Update a visa by ID
-router.put('/:id', VisaController.updateVisaById);
+router.put("/:id", VisaController.updateVisaById);
 
 // Delete a visa by ID
-router.delete('/:id', VisaController.deleteVisaById);
+router.delete("/:id", VisaController.deleteVisaById);
 
 module.exports = router;

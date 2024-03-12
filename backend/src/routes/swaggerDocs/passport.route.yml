@@ -1,125 +1,158 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
-  version: '1.0.0'
+  version: "1.0.0"
   title: Passport API
-  description: API for managing passports
+basePath: /
+schemes:
+  - http
 tags:
-  - name: Passports
-    description: Operations about passports
+  - name: Passport Routes
+    description: Endpoints for managing passports
 paths:
   /passports:
     post:
       tags:
-        - Passports
+        - Passport Routes
       summary: Create a new passport
-      operationId: createPassport
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - in: body
           name: body
-          description: Passport object that needs to be added
+          description: Passport object
           required: true
           schema:
-            $ref: '#/definitions/Passport'
+            $ref: "#/definitions/Passport"
       responses:
-        '201':
-          description: Passport created
-        '400':
-          description: Invalid input
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/Passport"
+        400:
+          description: Bad request
     get:
       tags:
-        - Passports
-      summary: Get all passports
-      operationId: getPassports
+        - Passport Routes
+      summary: Retrieve all passports
+      produces:
+        - application/json
       responses:
-        '200':
-          description: Successful operation
-        '500':
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Passport"
+        500:
           description: Internal server error
   /passports/{id}:
     get:
       tags:
-        - Passports
-      summary: Get a passport by ID
-      operationId: getPassport
+        - Passport Routes
+      summary: Retrieve a single passport by ID
+      produces:
+        - application/json
       parameters:
         - in: path
           name: id
-          description: ID of passport to return
           required: true
           type: string
       responses:
-        '200':
-          description: Successful operation
-        '404':
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Passport"
+        404:
           description: Passport not found
-        '500':
+        500:
           description: Internal server error
     put:
       tags:
-        - Passports
-      summary: Update a passport
-      operationId: updatePassport
+        - Passport Routes
+      summary: Update a passport by ID
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - in: path
           name: id
-          description: ID of passport to update
           required: true
           type: string
         - in: body
           name: body
-          description: Passport object that needs to be updated
+          description: Passport object
           required: true
           schema:
-            $ref: '#/definitions/Passport'
+            $ref: "#/definitions/Passport"
       responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Invalid input
-        '404':
+        200:
+          description: Updated
+          schema:
+            $ref: "#/definitions/Passport"
+        404:
           description: Passport not found
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
     delete:
       tags:
-        - Passports
-      summary: Delete a passport
-      operationId: deletePassport
+        - Passport Routes
+      summary: Delete a passport by ID
       parameters:
         - in: path
           name: id
-          description: ID of passport to delete
           required: true
           type: string
       responses:
-        '200':
-          description: Successful operation
-        '404':
+        200:
+          description: Deleted
+          schema:
+            $ref: "#/definitions/Passport"
+        404:
           description: Passport not found
-        '500':
+        500:
           description: Internal server error
 definitions:
   Passport:
     type: object
     properties:
-      passportNumber:
+      parentMember_id:
         type: string
-        description: The passport number
-      issueDate:
+      country:
+        type: string
+      passportNo:
+        type: string
+      dateOfIssue:
         type: string
         format: date
-        description: The date when the passport was issued
-      expiryDate:
+      dateOfExpiry:
         type: string
         format: date
-        description: The date when the passport will expire
-      nationality:
+      placeOfIssue:
         type: string
-        description: The nationality of the passport holder
-      holderName:
+      fileNo:
         type: string
-        description: The name of the passport holder
-    required:
-      - passportNumber
-      - issueDate
-      - expiryDate
-      - nationality
-      - holderName
+      previousPassportNo:
+        type: string
+      previousPassportDateOfIssue:
+        type: string
+        format: date
+      previousPassportPlaceOfIssue:
+        type: string
+      documents:
+        type: object
+        properties:
+          coverPage:
+            type: string
+          firstPage:
+            type: string
+          lastPage:
+            type: string
+          pdf:
+            type: string
+      otherInfo:
+        type: object

@@ -2,32 +2,25 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: Visa API
-  description: API for managing visas
+basePath: /
+schemes:
+  - http
 tags:
-  - name: Visas
-    description: Operations about visas
+  - name: Visa Routes
+    description: Endpoints for managing visas
 paths:
   /visas:
-    get:
-      tags:
-        - Visas
-      summary: Get all visas
-      responses:
-        200:
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Visa"
-        500:
-          description: Internal server error
     post:
       tags:
-        - Visas
+        - Visa Routes
       summary: Create a new visa
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
-        - name: visa
-          in: body
+        - in: body
+          name: body
           description: Visa object
           required: true
           schema:
@@ -39,17 +32,31 @@ paths:
             $ref: "#/definitions/Visa"
         400:
           description: Bad request
+    get:
+      tags:
+        - Visa Routes
+      summary: Retrieve all visas
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Visa"
         500:
           description: Internal server error
   /visas/{id}:
     get:
       tags:
-        - Visas
-      summary: Get a single visa by ID
+        - Visa Routes
+      summary: Retrieve a single visa by ID
+      produces:
+        - application/json
       parameters:
-        - name: id
-          in: path
-          description: Visa ID
+        - in: path
+          name: id
           required: true
           type: string
       responses:
@@ -63,47 +70,48 @@ paths:
           description: Internal server error
     put:
       tags:
-        - Visas
+        - Visa Routes
       summary: Update a visa by ID
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
-        - name: id
-          in: path
-          description: Visa ID
+        - in: path
+          name: id
           required: true
           type: string
-        - name: visa
-          in: body
+        - in: body
+          name: body
           description: Visa object
           required: true
           schema:
             $ref: "#/definitions/Visa"
       responses:
         200:
-          description: OK
+          description: Updated
           schema:
             $ref: "#/definitions/Visa"
         404:
           description: Visa not found
+        400:
+          description: Bad request
         500:
           description: Internal server error
     delete:
       tags:
-        - Visas
+        - Visa Routes
       summary: Delete a visa by ID
       parameters:
-        - name: id
-          in: path
-          description: Visa ID
+        - in: path
+          name: id
           required: true
           type: string
       responses:
         200:
-          description: OK
+          description: Deleted
           schema:
-            type: object
-            properties:
-              message:
-                type: string
+            $ref: "#/definitions/Visa"
         404:
           description: Visa not found
         500:
@@ -112,30 +120,42 @@ definitions:
   Visa:
     type: object
     properties:
+      parentPassport_id:
+        type: string
+      passportNo:
+        type: string
       country:
         type: string
-        required: true
-      type:
+      visaType:
         type: string
-        required: true
-      issueDate:
+      category:
+        type: string
+      noOfEntry:
+        type: integer
+      visaNo:
+        type: string
+      validFrom:
         type: string
         format: date
-        required: true
-      expiryDate:
+      validUntil:
         type: string
         format: date
-        required: true
-      passportNumber:
+      duration:
+        type: integer
+      annotation:
         type: string
-        required: true
-      visaNumber:
+      visaApplication_id:
         type: string
-        required: true
-    required:
-      - country
-      - type
-      - issueDate
-      - expiryDate
-      - passportNumber
-      - visaNumber
+      documents:
+        type: object
+        properties:
+          coverPage:
+            type: string
+          firstPage:
+            type: string
+          lastPage:
+            type: string
+          pdf:
+            type: string
+      otherInfo:
+        type: object

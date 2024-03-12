@@ -1,67 +1,115 @@
 swagger: "2.0"
 info:
   version: "1.0.0"
-  title: Passport API
-  description: API documentation for Passport
+  title: Members API
+basePath: /
+schemes:
+  - http
 tags:
-  - name: Members
-    description: Operations about Members
+  - name: Members Routes
+    description: Endpoints for managing members
 paths:
   /members:
     post:
       tags:
-        - Members
-      summary: Create a new passport
+        - Members Routes
+      summary: Create a new member
       consumes:
+        - application/json
+      produces:
         - application/json
       parameters:
         - in: body
-          name: passport
-          description: The passport to create
+          name: body
+          description: Member object
+          required: true
           schema:
-            $ref: "#/definitions/Passport"
+            $ref: "#/definitions/Member"
       responses:
-        "201":
-          description: Passport created
-        "400":
-          description: Error occurred
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/Member"
+        400:
+          description: Bad request
+      examples:
+        sample:
+          value:
+            memberType: "Regular"
+            surname: "Doe"
+            givenName: "John"
+            birthDate: "1990-01-01"
+            birthPlace: "New York"
+            nationality: "American"
+            fatherName:
+              surname: "Doe"
+              givenName: "Michael"
+            motherName:
+              surname: "Doe"
+              givenName: "Jane"
+            spouseName:
+              surname: "Smith"
+              givenName: "Alice"
+            education:
+              nameOfInstitute: "University of XYZ"
+              course: "Computer Science"
+              yearFrom: 2010
+              yearTo: 2014
+            joiningDate: "2024-03-12"
+            address:
+              line1: "123 Main Street"
+              line2: "Apt 101"
+              line3: "Anytown"
+            documents:
+              identity: "ID123456"
+              memberCertificate: "MC789012"
+              other:
+                additionalDocument: "Additional Doc"
+            otherInfo:
+              additionalInfo: "Additional Info"
     get:
       tags:
-        - Members
-      summary: Retrieve all passports
+        - Members Routes
+      summary: Retrieve all members
+      produces:
+        - application/json
       responses:
-        "200":
-          description: A list of passports
+        200:
+          description: OK
           schema:
             type: array
             items:
-              $ref: "#/definitions/Passport"
-        "500":
-          description: Error occurred
+              $ref: "#/definitions/Member"
+        500:
+          description: Internal server error
   /members/{id}:
     get:
       tags:
-        - Members
-      summary: Retrieve a single passport with id
+        - Members Routes
+      summary: Retrieve a single member by ID
+      produces:
+        - application/json
       parameters:
         - in: path
           name: id
           required: true
           type: string
       responses:
-        "200":
-          description: A single passport
+        200:
+          description: OK
           schema:
-            $ref: "#/definitions/Passport"
-        "404":
-          description: Passport not found
-        "500":
-          description: Error occurred
+            $ref: "#/definitions/Member"
+        404:
+          description: Member not found
+        500:
+          description: Internal server error
     put:
       tags:
-        - Members
-      summary: Update a passport with id
+        - Members Routes
+      summary: Update a member by ID
       consumes:
+        - application/json
+      produces:
         - application/json
       parameters:
         - in: path
@@ -69,68 +117,109 @@ paths:
           required: true
           type: string
         - in: body
-          name: passport
-          description: The passport to update
+          name: body
+          description: Member object
+          required: true
           schema:
-            $ref: "#/definitions/Passport"
+            $ref: "#/definitions/Member"
       responses:
-        "200":
-          description: Passport updated
-        "404":
-          description: Passport not found
-        "400":
-          description: Error occurred
+        200:
+          description: Updated
+          schema:
+            $ref: "#/definitions/Member"
+        404:
+          description: Member not found
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
     delete:
       tags:
-        - Members
-      summary: Delete a passport with id
+        - Members Routes
+      summary: Delete a member by ID
       parameters:
         - in: path
           name: id
           required: true
           type: string
       responses:
-        "200":
-          description: Passport deleted
-        "404":
-          description: Passport not found
-        "500":
-          description: Error occurred
+        200:
+          description: Deleted
+          schema:
+            $ref: "#/definitions/Member"
+        404:
+          description: Member not found
+        500:
+          description: Internal server error
 definitions:
-  Passport:
+  Member:
     type: object
     properties:
-      parentMember_id:
+      memberType:
         type: string
-      country:
+      surname:
         type: string
-      passportNo:
+      givenName:
         type: string
-      dateOfIssue:
+      birthDate:
         type: string
-        format: date-time
-      dateOfExpiry:
+        format: date
+      birthPlace:
         type: string
-        format: date-time
-      placeOfIssue:
+      nationality:
         type: string
-      fileNo:
+      fatherName:
+        type: object
+        properties:
+          surname:
+            type: string
+          givenName:
+            type: string
+      motherName:
+        type: object
+        properties:
+          surname:
+            type: string
+          givenName:
+            type: string
+      spouseName:
+        type: object
+        properties:
+          surname:
+            type: string
+          givenName:
+            type: string
+      education:
+        type: object
+        properties:
+          nameOfInstitute:
+            type: string
+          course:
+            type: string
+          yearFrom:
+            type: integer
+          yearTo:
+            type: integer
+      joiningDate:
         type: string
-      previousPassportNo:
-        type: string
-      previousPassportDateOfIssue:
-        type: string
-        format: date-time
-      previousPassportPlaceOfIssue:
-        type: string
+        format: date
+      address:
+        type: object
+        properties:
+          line1:
+            type: string
+          line2:
+            type: string
+          line3:
+            type: string
       documents:
         type: object
         properties:
-          coverPage:
+          identity:
             type: string
-          firstPage:
+          memberCertificate:
             type: string
-          lastPage:
-            type: string
-          pdf:
-            type: string
+          other:
+            type: object
+      otherInfo:
+        type: object
