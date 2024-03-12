@@ -1,35 +1,36 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const travelDetailSchema = new mongoose.Schema({
-  parentVisa_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Visa',
-    required: true
-  },
-  flightNo: {
-    type: String,
-    required: true
-  },
-  departureAirport: {
-    type: String,
-    required: true
-  },
-  arrivalAirport: {
-    type: String,
-    required: true
-  },
-  transits: {
-    type: [String],
-    default: []
-  },
-  documents: {
-    flightTicket: {
+const travelDetailSchema = new mongoose.Schema(
+  {
+    parentVisa_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Visa",
+      required: true,
+    },
+    flightNo: {
       type: String,
-      required: true
-    }
-  }
-});
+      required: true,
+    },
+    departureAirport: {
+      type: String,
+      required: true,
+    },
+    arrivalAirport: {
+      type: String,
+      required: true,
+    },
+    transits: {
+      type: [String],
+      default: [],
+    },
+    documents: { type: Object, default: {} },
+    otherInfo: {
+      type: Object, // for any other info that is not in the schema
+    },
+  },
+  { timestamps: true }
+);
 
-const TravelDetail = mongoose.model('TravelDetail', travelDetailSchema);
+const TravelDetail = mongoose.model("TravelDetail", travelDetailSchema);
 
 module.exports = TravelDetail;

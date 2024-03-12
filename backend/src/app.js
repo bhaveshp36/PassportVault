@@ -1,9 +1,8 @@
 const express = require("express");
 //const cors = require("cors");
 //const errorHandler = require("./middleware/errorhandler");
-const swaggerUi = require('swagger-ui-express');
+const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./common/swaggerDoc");
-
 
 const app = express();
 
@@ -13,10 +12,12 @@ const app = express();
 //For body Parsing//
 app.use(express.json());
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get('/', (req, res) => {
-    res.send('Server is running on port 8000. Please visit /docs for API documentation.');
+app.get("/", (req, res) => {
+  res.send(
+    "Server is running on port 8000. Please visit /docs for API documentation."
+  );
 });
 
 // Routes //

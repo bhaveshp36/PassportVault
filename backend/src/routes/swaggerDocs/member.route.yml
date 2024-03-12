@@ -1,0 +1,136 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Passport API
+  description: API documentation for Passport
+tags:
+  - name: Members
+    description: Operations about Members
+paths:
+  /members:
+    post:
+      tags:
+        - Members
+      summary: Create a new passport
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: passport
+          description: The passport to create
+          schema:
+            $ref: "#/definitions/Passport"
+      responses:
+        "201":
+          description: Passport created
+        "400":
+          description: Error occurred
+    get:
+      tags:
+        - Members
+      summary: Retrieve all passports
+      responses:
+        "200":
+          description: A list of passports
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Passport"
+        "500":
+          description: Error occurred
+  /members/{id}:
+    get:
+      tags:
+        - Members
+      summary: Retrieve a single passport with id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: A single passport
+          schema:
+            $ref: "#/definitions/Passport"
+        "404":
+          description: Passport not found
+        "500":
+          description: Error occurred
+    put:
+      tags:
+        - Members
+      summary: Update a passport with id
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: passport
+          description: The passport to update
+          schema:
+            $ref: "#/definitions/Passport"
+      responses:
+        "200":
+          description: Passport updated
+        "404":
+          description: Passport not found
+        "400":
+          description: Error occurred
+    delete:
+      tags:
+        - Members
+      summary: Delete a passport with id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Passport deleted
+        "404":
+          description: Passport not found
+        "500":
+          description: Error occurred
+definitions:
+  Passport:
+    type: object
+    properties:
+      parentMember_id:
+        type: string
+      country:
+        type: string
+      passportNo:
+        type: string
+      dateOfIssue:
+        type: string
+        format: date-time
+      dateOfExpiry:
+        type: string
+        format: date-time
+      placeOfIssue:
+        type: string
+      fileNo:
+        type: string
+      previousPassportNo:
+        type: string
+      previousPassportDateOfIssue:
+        type: string
+        format: date-time
+      previousPassportPlaceOfIssue:
+        type: string
+      documents:
+        type: object
+        properties:
+          coverPage:
+            type: string
+          firstPage:
+            type: string
+          lastPage:
+            type: string
+          pdf:
+            type: string

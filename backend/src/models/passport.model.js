@@ -1,69 +1,74 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const passportSchema = new mongoose.Schema({
+const passportSchema = new mongoose.Schema(
+  {
     parentMember_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Member',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Member",
+      required: true,
     },
     country: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     passportNo: {
-        type: String,
-        required: true,
-        unique: true
+      type: String,
+      required: true,
+      unique: true,
     },
     dateOfIssue: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
     dateOfExpiry: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
     placeOfIssue: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     fileNo: {
-        type: String,
-        required: true,
-        unique: true
+      type: String,
+      required: true,
+      unique: true,
     },
     previousPassportNo: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     previousPassportDateOfIssue: {
-        type: Date,
-        required: false
+      type: Date,
+      required: false,
     },
     previousPassportPlaceOfIssue: {
-        type: String,
-        required: false
+      type: String,
+      required: false,
     },
     documents: {
-        coverPage: {
-            type: String,
-            required: true
-        },
-        firstPage: {
-            type: String,
-            required: true
-        },
-        lastPage: {
-            type: String,
-            required: true
-        },
-        pdf: {
-            type: String,
-            required: true
-        }
-    }
-}, { timestamps: true });
+      coverPage: {
+        type: String,
+        required: true,
+      },
+      firstPage: {
+        type: String,
+        required: true,
+      },
+      lastPage: {
+        type: String,
+        required: true,
+      },
+      pdf: {
+        type: String,
+      },
+    },
+    otherInfo: {
+      type: Object, // for any other info that is not in the schema
+    },
+  },
+  { timestamps: true }
+);
 
-const Passport = mongoose.model('Passport', passportSchema);
+const Passport = mongoose.model("Passport", passportSchema);
 
 module.exports = Passport;

@@ -29,6 +29,7 @@ member:
         - Identity
         - MemberCertificate
         - others
+    - otherInfo{}
 
 passport:
     - _id
