@@ -7,6 +7,7 @@ exports.createMember = async (req, res) => {
     res.status(201).send(member);
   } catch (error) {
     res.status(400).send(error);
+    console.log(error);
   }
 };
 
@@ -16,6 +17,7 @@ exports.getMembers = async (req, res) => {
     res.send(members);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };
 
@@ -28,6 +30,7 @@ exports.getMember = async (req, res) => {
     res.send(member);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };
 
@@ -43,6 +46,7 @@ exports.updateMember = async (req, res) => {
     res.send(member);
   } catch (error) {
     res.status(400).send(error);
+    console.log(error);
   }
 };
 
@@ -55,5 +59,6 @@ exports.deleteMember = async (req, res) => {
     res.send(member);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };

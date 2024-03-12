@@ -3,11 +3,11 @@ const VisaController = require("../controllers/visa.controller");
 
 const router = express.Router();
 
-// Get all visas
-router.get("/", VisaController.getAllVisas);
-
 // Create a new visa
 router.post("/", VisaController.createVisa);
+
+// Get all visas
+router.get("/", VisaController.getAllVisas);
 
 // Get a single visa by ID
 router.get("/:id", VisaController.getVisaById);

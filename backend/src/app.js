@@ -22,14 +22,17 @@ app.get("/", (req, res) => {
 const memberRoutes = require("./routes/member.route");
 app.use("/members", memberRoutes);
 
+const organizationRoutes = require("./routes/organization.route");
+app.use("/organizations", organizationRoutes);
+
 const passportRoutes = require("./routes/passport.route");
 app.use("/passports", passportRoutes);
 
 const travelDetailRoutes = require("./routes/travelDetail.route");
-app.use("/travelDetails", travelDetailRoutes);
+app.use("/travel-details", travelDetailRoutes);
 
 const travelPlanRoutes = require("./routes/travelPlan.route");
-app.use("/travelPlans", travelPlanRoutes);
+app.use("/travel-plans", travelPlanRoutes);
 
 const userRoutes = require("./routes/user.route");
 app.use("/users", userRoutes);
@@ -38,6 +41,6 @@ const visaRoutes = require("./routes/visa.route");
 app.use("/visas", visaRoutes);
 
 const visaApplicationRoutes = require("./routes/visaApplication.route");
-app.use("/visaApplications", visaApplicationRoutes);
+app.use("/visa-applications", visaApplicationRoutes);
 
 module.exports = app;

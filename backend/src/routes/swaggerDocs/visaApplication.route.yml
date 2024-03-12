@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  title: Visa Application API
+  version: 1.0.0
+paths:
+  /visa-applications:
+    post:
+      tags:
+        - Visa Applications
+      summary: Create a new visa application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VisaApplication"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VisaApplication"
+        "400":
+          description: Bad Request
+    get:
+      tags:
+        - Visa Applications
+      summary: Get all visa applications
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VisaApplication"
+        "500":
+          description: Internal Server Error
+  /visa-applications/{id}:
+    get:
+      tags:
+        - Visa Applications
+      summary: Get a single visa application by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VisaApplication"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+    put:
+      tags:
+        - Visa Applications
+      summary: Update a visa application by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VisaApplication"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VisaApplication"
+        "404":
+          description: Not Found
+        "400":
+          description: Bad Request
+    delete:
+      tags:
+        - Visa Applications
+      summary: Delete a visa application by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VisaApplication"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    VisaApplication:
+      type: object
+      properties:
+        member_id:
+          type: string
+        passportNo:
+          type: string
+        country:
+          type: string
+        dateOfDeparture:
+          type: string
+          format: date
+        dateOfArrival:
+          type: string
+          format: date
+        applicationNo:
+          type: string
+        password:
+          type: string
+        securityQuestions:
+          type: object
+          properties:
+            question1:
+              type: string
+            question2:
+              type: string
+            question3:
+              type: string
+        documents:
+          type: object
+          properties:
+            sponsorshipLetter:
+              type: string
+            invitationLetter:
+              type: string
+            membershipCertificate:
+              type: string
+            applicationForm:
+              type: string
+            bankStatements:
+              type: string
+        otherInfo:
+          type: object
+      required:
+        - member_id
+        - passportNo
+        - country
+        - dateOfDeparture
+        - dateOfArrival
+        - applicationNo
+        - password
+        - securityQuestions
+        - documents

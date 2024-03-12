@@ -1,34 +1,35 @@
 openapi: 3.0.0
 info:
   version: "1.0.0"
-  title: Passport API
-servers:
-  - url: /
+  title: Travel Detail API
+tags:
+  - name: Travel Detail
+    description: Endpoints for managing travel details
 paths:
-  /passports:
+  /travel-details:
     post:
       tags:
-        - Passport Routes
-      summary: Create a new passport
+        - Travel Detail
+      summary: Create a new travel detail
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Passport"
+              $ref: "#/components/schemas/TravelDetail"
       responses:
         "201":
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Passport"
+                $ref: "#/components/schemas/TravelDetail"
         "400":
           description: Bad request
     get:
       tags:
-        - Passport Routes
-      summary: Retrieve all passports
+        - Travel Detail
+      summary: Retrieve all travel details
       responses:
         "200":
           description: OK
@@ -37,14 +38,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Passport"
+                  $ref: "#/components/schemas/TravelDetail"
         "500":
           description: Internal server error
-  /passports/{id}:
+  /travel-details/{id}:
     get:
       tags:
-        - Passport Routes
-      summary: Retrieve a single passport by ID
+        - Travel Detail
+      summary: Retrieve a single travel detail by ID
       parameters:
         - in: path
           name: id
@@ -57,38 +58,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Passport"
+                $ref: "#/components/schemas/TravelDetail"
         "404":
-          description: Passport not found
+          description: Travel detail not found
         "500":
           description: Internal server error
     put:
       tags:
-        - Passport Routes
-      summary: Update a passport by ID
+        - Travel Detail
+      summary: Update a travel detail by ID
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Passport"
+              $ref: "#/components/schemas/TravelDetail"
       responses:
         "200":
           description: Updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Passport"
+                $ref: "#/components/schemas/TravelDetail"
         "404":
-          description: Passport not found
+          description: Travel detail not found
         "400":
           description: Bad request
         "500":
           description: Internal server error
     delete:
       tags:
-        - Passport Routes
-      summary: Delete a passport by ID
+        - Travel Detail
+      summary: Delete a travel detail by ID
       parameters:
         - in: path
           name: id
@@ -101,39 +102,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Passport"
+                $ref: "#/components/schemas/TravelDetail"
         "404":
-          description: Passport not found
+          description: Travel detail not found
         "500":
           description: Internal server error
 components:
   schemas:
-    Passport:
+    TravelDetail:
       type: object
       properties:
-        parentMember_id:
+        _id:
           type: string
-        country:
+        parentVisa_id:
           type: string
-        passportNo:
+        flightNo:
           type: string
-        dateOfIssue:
+        departureAirport:
           type: string
-          format: date
-        dateOfExpiry:
+        arrivalAirport:
           type: string
-          format: date
-        placeOfIssue:
-          type: string
-        fileNo:
-          type: string
-        previousPassportNo:
-          type: string
-        previousPassportDateOfIssue:
-          type: string
-          format: date
-        previousPassportPlaceOfIssue:
-          type: string
+        transits:
+          type: array
+          items:
+            type: string
         documents:
           type: object
           properties:

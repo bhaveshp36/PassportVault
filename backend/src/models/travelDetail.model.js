@@ -9,15 +9,12 @@ const travelDetailSchema = new mongoose.Schema(
     },
     flightNo: {
       type: String,
-      required: true,
     },
     departureAirport: {
       type: String,
-      required: true,
     },
     arrivalAirport: {
       type: String,
-      required: true,
     },
     transits: {
       type: [String],

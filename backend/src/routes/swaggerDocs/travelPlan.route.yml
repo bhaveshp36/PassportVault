@@ -1,0 +1,141 @@
+openapi: 3.0.0
+info:
+  title: Travel Plan API
+  version: 1.0.0
+paths:
+  /travel-plans:
+    post:
+      tags:
+        - Travel Plans
+      summary: Create a new travel plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TravelPlan"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TravelPlan"
+        "400":
+          description: Bad Request
+    get:
+      tags:
+        - Travel Plans
+      summary: Get all travel plans
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TravelPlan"
+        "500":
+          description: Internal Server Error
+  /travel-plans/{id}:
+    get:
+      tags:
+        - Travel Plans
+      summary: Get a single travel plan by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TravelPlan"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+    put:
+      tags:
+        - Travel Plans
+      summary: Update a travel plan by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TravelPlan"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TravelPlan"
+        "404":
+          description: Not Found
+        "400":
+          description: Bad Request
+    delete:
+      tags:
+        - Travel Plans
+      summary: Delete a travel plan by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TravelPlan"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    TravelPlan:
+      type: object
+      properties:
+        country:
+          type: string
+        dateOfDeparture:
+          type: string
+          format: date
+        dateOfArrival:
+          type: string
+          format: date
+        members:
+          type: array
+          items:
+            type: string
+          description: Array of member IDs
+        visaApplications_id:
+          type: array
+          items:
+            type: string
+          description: Array of visa application IDs
+        documents:
+          type: object
+        otherInfo:
+          type: object
+      required:
+        - country
+        - dateOfDeparture
+        - dateOfArrival

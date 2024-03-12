@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  title: PassportVault API
+  version: 1.0.0
+paths:
+  /organizations:
+    post:
+      tags:
+        - Organizations
+      summary: Create a new organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Organization"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        "400":
+          description: Bad Request
+    get:
+      tags:
+        - Organizations
+      summary: Get all organizations
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Organization"
+        "500":
+          description: Internal Server Error
+  /organizations/{id}:
+    get:
+      tags:
+        - Organizations
+      summary: Get an organization by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+    put:
+      tags:
+        - Organizations
+      summary: Update an organization by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Organization"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        "404":
+          description: Not Found
+        "400":
+          description: Bad Request
+    delete:
+      tags:
+        - Organizations
+      summary: Delete an organization by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    Organization:
+      type: object
+      properties:
+        organization_id:
+          type: string
+        name:
+          type: string
+        legal_entity_type:
+          type: string
+        billing_info:
+          type: object
+          properties:
+            billing_address:
+              type: string
+            contact_person_name:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string

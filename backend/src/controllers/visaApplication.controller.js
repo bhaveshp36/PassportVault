@@ -7,6 +7,7 @@ exports.createVisaApplication = async (req, res) => {
     res.status(201).send(visaApplication);
   } catch (error) {
     res.status(400).send(error);
+    console.log(error);
   }
 };
 
@@ -16,6 +17,7 @@ exports.getVisaApplications = async (req, res) => {
     res.send(visaApplications);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };
 
@@ -28,6 +30,7 @@ exports.getVisaApplication = async (req, res) => {
     res.send(visaApplication);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };
 
@@ -47,6 +50,7 @@ exports.updateVisaApplication = async (req, res) => {
     res.send(visaApplication);
   } catch (error) {
     res.status(400).send(error);
+    console.log(error);
   }
 };
 
@@ -61,5 +65,6 @@ exports.deleteVisaApplication = async (req, res) => {
     res.send(visaApplication);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };

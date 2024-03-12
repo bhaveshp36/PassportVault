@@ -7,6 +7,7 @@ exports.createTravelPlan = async (req, res) => {
     res.status(201).send(travelPlan);
   } catch (error) {
     res.status(400).send(error);
+    console.log(error);
   }
 };
 
@@ -16,6 +17,7 @@ exports.getTravelPlans = async (req, res) => {
     res.send(travelPlans);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };
 
@@ -28,6 +30,7 @@ exports.getTravelPlan = async (req, res) => {
     res.send(travelPlan);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };
 
@@ -47,6 +50,7 @@ exports.updateTravelPlan = async (req, res) => {
     res.send(travelPlan);
   } catch (error) {
     res.status(400).send(error);
+    console.log(error);
   }
 };
 
@@ -59,5 +63,6 @@ exports.deleteTravelPlan = async (req, res) => {
     res.send(travelPlan);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };

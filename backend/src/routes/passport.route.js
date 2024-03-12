@@ -4,18 +4,18 @@ const passportController = require("../controllers/passport.controller.js");
 const router = express.Router();
 
 // Route to create a new passport
-router.post("/passports", passportController.createPassport);
+router.post("/", passportController.createPassport);
 
 // Route to get all passports
-router.get("/passports", passportController.getPassports);
+router.get("/", passportController.getPassports);
 
 // Route to get a specific passport by ID
-router.get("/passports/:id", passportController.getPassport);
+router.get("/:id", passportController.getPassport);
 
 // Route to update a specific passport by ID
-router.put("/passports/:id", passportController.updatePassport);
+router.put("/:id", passportController.updatePassport);
 
 // Route to delete a specific passport by ID
-router.delete("/passports/:id", passportController.deletePassport);
+router.delete("/:id", passportController.deletePassport);
 
 module.exports = router;

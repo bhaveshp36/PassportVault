@@ -7,6 +7,7 @@ exports.createPassport = async (req, res) => {
     res.status(201).send(passport);
   } catch (error) {
     res.status(400).send(error);
+console.log(error);
   }
 };
 
@@ -16,6 +17,7 @@ exports.getPassports = async (req, res) => {
     res.send(passports);
   } catch (error) {
     res.status(500).send(error);
+console.log(error);
   }
 };
 
@@ -28,6 +30,7 @@ exports.getPassport = async (req, res) => {
     res.send(passport);
   } catch (error) {
     res.status(500).send(error);
+console.log(error);
   }
 };
 
@@ -43,6 +46,7 @@ exports.updatePassport = async (req, res) => {
     res.send(passport);
   } catch (error) {
     res.status(400).send(error);
+console.log(error);
   }
 };
 
@@ -55,5 +59,6 @@ exports.deletePassport = async (req, res) => {
     res.send(passport);
   } catch (error) {
     res.status(500).send(error);
+console.log(error);
   }
 };
