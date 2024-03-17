@@ -2,36 +2,37 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Space } from "antd";
-import ViewRecord from "./Modals/ViewRecord";
 
 const columns = [
   {
-    title: "Name",
-    dataIndex: "givenName",
+    title: "Travel Plan Name",
+    dataIndex: "travelPlanName",
   },
   {
-    title: "Surname",
-    dataIndex: "surname",
+    title: "Country",
+    dataIndex: "country",
   },
   {
-    title: "Member Type",
-    dataIndex: "memberType",
+    title: "Date Of Departure",
+    dataIndex: "dateOfDeparture",
   },
   {
-    title: "Joining",
-    dataIndex: "joiningDate",
+    title: "Date of Arrival",
+    dataIndex: "dateOfArrival",
   },
+
   {
     title: "Action",
     key: "action",
     render: (_, record) => (
-      <>
+      console.log("record:", record),
+      (
         <Space size="middle">
           <a>View</a>
           <a>Edit</a>
           <a>Delete</a>
         </Space>
-      </>
+      )
     ),
   },
 ];
@@ -40,25 +41,22 @@ const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 
-const Members = () => {
-  const [members, setMembers] = useState([]);
+const TravelPlans = () => {
+  const [TravelPlans, setTravelPlans] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/members`
+        `${import.meta.env.VITE_BACKEND_URL}/travel-plans`
       );
       if (response.data) {
-        const temp = response.data.map((member) => {
-          if (member.joiningDate) {
-            return {
-              ...member,
-              joiningDate: member.joiningDate.split("T")[0],
-            };
-          }
+        response.data.map((item) => {
+          item.dateOfArrival = item.dateOfArrival.split("T")[0];
+          item.dateOfDeparture = item.dateOfDeparture.split("T")[0];
         });
-        console.log("temp", temp);
-        setMembers(temp);
       }
+
+      setTravelPlans(response.data);
     };
     fetchData();
   }, []);
@@ -69,10 +67,10 @@ const Members = () => {
         rowKey={(record) => record._id}
         pagination={{ position: ["bottomRight"] }}
         columns={columns}
-        dataSource={members}
+        dataSource={TravelPlans}
         onChange={onChange}
       />
     </>
   );
 };
-export default Members;
+export default TravelPlans;

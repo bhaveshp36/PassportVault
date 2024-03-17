@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const travelPlanSchema = new mongoose.Schema(
   {
+    travelPlanName: {
+      type: String,
+      required: true,
+    },
     country: {
       type: String,
       required: true,

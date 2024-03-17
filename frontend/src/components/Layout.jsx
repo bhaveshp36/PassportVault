@@ -10,9 +10,12 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Input, Space } from "antd";
 
-import AddMemberModal from "./AddMemberModal";
+
 import Members from "./Members";
 import Dashboard from "./Dashboard";
+import TravelPlan from "./TravelPlan";
+import Files from "./Files";
+import Settings from "./Settings";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -25,6 +28,7 @@ function getItem(label, key, icon, children) {
   };
 }
 const { Search } = Input;
+
 const items = [
   getItem("Dashboard", "1", <PieChartOutlined />),
   getItem("Members", "2", <TeamOutlined />),
@@ -95,6 +99,7 @@ const App = () => {
         <Content
           style={{
             margin: 0,
+            padding: 16,
             background: colorSplit,
           }}
         >
@@ -105,11 +110,11 @@ const App = () => {
               case "2":
                 return <Members />;
               case "3":
-                return <AddMemberModal />;
+                return <TravelPlan />;
               case "4":
-                return <h1>Files</h1>;
+                return <Files />;
               case "5":
-                return <h1>Settings</h1>;
+                return <Settings />;
             }
           })()}
         </Content>

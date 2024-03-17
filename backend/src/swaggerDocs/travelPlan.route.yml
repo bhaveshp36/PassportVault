@@ -113,6 +113,8 @@ components:
     TravelPlan:
       type: object
       properties:
+        travelPlanName:
+          type: string
         country:
           type: string
         dateOfDeparture:
@@ -136,6 +138,7 @@ components:
         otherInfo:
           type: object
       required:
+        - travelPlanName
         - country
         - dateOfDeparture
         - dateOfArrival

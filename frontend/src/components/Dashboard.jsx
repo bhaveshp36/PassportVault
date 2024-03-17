@@ -13,11 +13,11 @@ const columns = [
     dataIndex: "surname",
   },
   {
-    title: "Visa Type",
+    title: "Type",
     dataIndex: "memberType",
   },
   {
-    title: "ExpiryDate",
+    title: "Date",
     dataIndex: "joiningDate",
   },
 ];
@@ -59,6 +59,11 @@ const Dashboard = () => {
         `${import.meta.env.VITE_BACKEND_URL}/members`
       );
       if (expiringVisaResponse.data) {
+        expiringVisaResponse.data.map((member) => {
+          if (member.joiningDate) {
+            member.joiningDate = member.joiningDate.split("T")[0];
+          }
+        });
         setExpiringVisaData(expiringVisaResponse.data);
       }
 
@@ -86,43 +91,51 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
+
   const cardStyle = {
-    width: "43vw",
-    height: "38vh",
-    margin: "10px",
-    padding: 0,
+    width: "100%",
+    height: "100%",
+    padding: "0px",
+    margin: "0",
   };
 
-  const tableStyle = { margin: 0, padding: 0 };
+  const tableStyle = {
+    height: "100%",
+    width: "100%",
+    margin: "0",
+    padding: "0",
+  };
 
   return (
     <>
-      <Space direction="vertical">
+      <Space direction="vertical" style={{ display: "flex" }}>
         <Space style={{ display: "flex" }}>
           <Card bordered={false} title="Expiring Passport" style={cardStyle}>
             <Table
               size="small"
+              virtual={true}
               scroll={{ y: true }}
               rowKey={(record) => record._id}
               pagination={false}
               style={tableStyle}
               bordered={true}
-              columns={expiringPassportscolumns}
-              dataSource={expiringPassportData}
+              columns={columns}
+              dataSource={expiringVisaData}
               onChange={onChange}
             />
           </Card>
 
           <Card bordered={false} title="Expiring Visa" style={cardStyle}>
             <Table
+              virtual={true}
               size="small"
               scroll={{ y: true }}
               rowKey={(record) => record._id}
               pagination={false}
               style={tableStyle}
               bordered={true}
-              columns={expiringPassportscolumns}
-              dataSource={expiringPassportData}
+              columns={columns}
+              dataSource={expiringVisaData}
               onChange={onChange}
             />
           </Card>
@@ -130,14 +143,15 @@ const Dashboard = () => {
         <Space>
           <Card bordered={false} title="Upcoming Travel Plan" style={cardStyle}>
             <Table
+              virtual={true}
               size="small"
               scroll={{ y: true }}
               rowKey={(record) => record._id}
               pagination={false}
               style={tableStyle}
               bordered={true}
-              columns={expiringPassportscolumns}
-              dataSource={expiringPassportData}
+              columns={columns}
+              dataSource={expiringVisaData}
               onChange={onChange}
             />
           </Card>
@@ -148,14 +162,15 @@ const Dashboard = () => {
             style={cardStyle}
           >
             <Table
+              virtual={true}
               size="small"
               scroll={{ y: true }}
               rowKey={(record) => record._id}
               pagination={false}
               style={tableStyle}
               bordered={true}
-              columns={expiringPassportscolumns}
-              dataSource={expiringPassportData}
+              columns={columns}
+              dataSource={expiringVisaData}
               onChange={onChange}
             />
           </Card>
