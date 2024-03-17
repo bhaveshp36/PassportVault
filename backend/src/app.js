@@ -12,12 +12,6 @@ app.use(express.json());
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get("/", (req, res) => {
-  res.send(
-    "Server is running on port 8000. Please visit /docs for API documentation."
-  );
-});
-
 // Routes //
 const memberRoutes = require("./routes/member.route");
 app.use("/members", memberRoutes);
@@ -42,5 +36,16 @@ app.use("/visas", visaRoutes);
 
 const visaApplicationRoutes = require("./routes/visaApplication.route");
 app.use("/visa-applications", visaApplicationRoutes);
+
+// Analytics Route //
+const expiringPassportsRoute = require("./analytics/expiringPassports");
+app.use("/expiringPassports", expiringPassportsRoute);
+
+// Default Route //
+app.get("/", (req, res) => {
+  res.send(
+    "Server is running on port 8000. Please visit /docs for API documentation."
+  );
+});
 
 module.exports = app;

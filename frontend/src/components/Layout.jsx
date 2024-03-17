@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 
-import AddMemberModal from "./AddMemberModal";
-import Members from "./Members";
 import {
   DesktopOutlined,
   FileOutlined,
@@ -10,8 +8,11 @@ import {
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { Layout, Menu, theme, Input, Space } from "antd";
 
-import { Breadcrumb, Layout, Menu, theme, Input } from "antd";
+import AddMemberModal from "./AddMemberModal";
+import Members from "./Members";
+import Dashboard from "./Dashboard";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -23,25 +24,23 @@ function getItem(label, key, icon, children) {
     label,
   };
 }
-
+const { Search } = Input;
 const items = [
   getItem("Dashboard", "1", <PieChartOutlined />),
-  getItem("Members", "2", <DesktopOutlined />),
-  getItem("Travel Plan", "3", <TeamOutlined />),
+  getItem("Members", "2", <TeamOutlined />),
+  getItem("Travel Plan", "3", <DesktopOutlined />),
   getItem("Files", "4", <FileOutlined />),
   getItem("Settings", "5", <UserOutlined />),
 ];
 
-console.log("items:", items);
-console.log("Backend-Url:", import.meta.env.VITE_BACKEND_URL);
+const onSearch = (value, _e, info) => console.log(info?.source, value);
+
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer, borderRadiusLG, colorSplit },
   } = theme.useToken();
-
   const [selectedMenu, setSelectedMenu] = useState("1");
-
   const menuOnClick = (e) => {
     setSelectedMenu(e.key);
   };
@@ -59,6 +58,7 @@ const App = () => {
       >
         <div className="demo-logo-vertical" />
         <Menu
+          style={{ marginTop: "2vw" }}
           theme="dark"
           defaultSelectedKeys={["1"]}
           mode="inline"
@@ -69,53 +69,47 @@ const App = () => {
       <Layout>
         <Header
           style={{
+            margin: 0,
             padding: 0,
             background: colorBgContainer,
+            width: "auto",
           }}
+          align="center"
         >
-          <div>
-            <Input.Search
-              size="small"
+          <Space direction="vertical" align="center">
+            <Search
+              style={{
+                margin: 10,
+                borderRadius: borderRadiusLG,
+                width: "50vw",
+              }}
+              allowClear
+              margin="auto"
               placeholder="Search"
-              style={{ textAlign: "center" }}
+              enterButton
+              size="large"
+              onSearch={onSearch}
             />
-          </div>
+          </Space>
         </Header>
         <Content
           style={{
-            margin: "0 16px",
+            margin: 0,
+            background: colorSplit,
           }}
         >
           {(() => {
             switch (selectedMenu) {
               case "1":
-                return <Members />;
+                return <Dashboard />;
               case "2":
-                return <AddMemberModal />;
+                return <Members />;
               case "3":
-                return <h1>Travel Plan</h1>;
+                return <AddMemberModal />;
               case "4":
                 return <h1>Files</h1>;
               case "5":
                 return <h1>Settings</h1>;
-              default:
-                return (
-                  <>
-                    <Breadcrumb
-                      style={{
-                        margin: "16px 0",
-                      }}
-                    >
-                      <Breadcrumb.Item>User</Breadcrumb.Item>
-                      <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div
-                      style={{
-                        padding: 24,
-                      }}
-                    />
-                  </>
-                );
             }
           })()}
         </Content>

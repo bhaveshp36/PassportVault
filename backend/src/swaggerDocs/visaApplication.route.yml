@@ -153,6 +153,13 @@ components:
               type: string
         otherInfo:
           type: object
+        status:
+          type: string
+          enum:
+            - pending
+            - approved
+            - rejected
+          required: true
       required:
         - member_id
         - passportNo
@@ -163,3 +170,4 @@ components:
         - password
         - securityQuestions
         - documents
+        - status

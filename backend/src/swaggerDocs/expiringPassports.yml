@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Passport Vault API
+  version: 1.0.0
+tags:
+  - name: Analytics
+    description: For Analytics purposes
+paths:
+  /expiringPassports:
+    get:
+      tags:
+        - Analytics
+      summary: Fetch data from both collections
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The member's full name
+                    passportNo:
+                      type: string
+                      description: The passport number
+                    expiry:
+                      type: string
+                      format: date
+                      description: The passport expiry date (YYYY-MM-DD)
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message

@@ -31,6 +31,11 @@ const visaApplicationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      required: true,
+    },
     securityQuestions: {
       question1: {
         type: String,
