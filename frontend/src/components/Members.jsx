@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Space } from "antd";
-import { Link } from 'react-router-dom';
-
+import { Table, Space, FloatButton, Modal } from "antd";
+import { Link } from "react-router-dom";
+import AddMember from "./Modals/AddMember";
 
 const columns = [
   {
@@ -28,7 +28,7 @@ const columns = [
     render: (_, record) => (
       <>
         <Space size="middle">
-        <Link to={`/members/${record._id}`}>View</Link>
+          <Link to={`/members/${record._id}`}>View</Link>
           <a>Edit</a>
           <a>Delete</a>
         </Space>
@@ -36,7 +36,13 @@ const columns = [
     ),
   },
 ];
-
+const NewMember = () => {
+  Modal.info({
+    title: "Add New Member",
+    content: <AddMember />,
+    onOk() {},
+  });
+};
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
@@ -73,6 +79,7 @@ const Members = () => {
         dataSource={members}
         onChange={onChange}
       />
+      <FloatButton onClick={NewMember} />
     </>
   );
 };

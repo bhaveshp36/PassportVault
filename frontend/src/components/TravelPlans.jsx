@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Space } from "antd";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -28,7 +29,7 @@ const columns = [
       console.log("record:", record),
       (
         <Space size="middle">
-          <a>View</a>
+          <Link to={`/travel-plan/${record._id}`}>View</Link>
           <a>Edit</a>
           <a>Delete</a>
         </Space>

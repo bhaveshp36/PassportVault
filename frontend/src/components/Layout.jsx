@@ -10,14 +10,15 @@ import {
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme, Input, Space } from "antd";
+import { Layout, Menu, theme, Input, Space, Avatar, Flex } from "antd";
 
 import Members from "./Members";
 import Dashboard from "./Dashboard";
-import TravelPlan from "./TravelPlan";
+import TravelPlan from "./TravelPlans.jsx";
 import Files from "./Files";
 import Settings from "./Settings";
 import ViewMember from "./Modals/ViewMember.jsx";
+import ViewTravelPlan from "./Modals/ViewTravelPlan.jsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -103,6 +104,8 @@ const LayoutComponent = () => {
               onSearch={onSearch}
             />
           </Space>
+
+          <Avatar shape="square" size={"large"} icon={<UserOutlined />} />
         </Header>
         <Content style={{ margin: 0, padding: 16, background: colorSplit }}>
           <Routes>
@@ -113,6 +116,7 @@ const LayoutComponent = () => {
             <Route path="/files" element={<Files />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/members/:id" element={<ViewMember />} />
+            <Route path="/travel-plan/:id" element={<ViewTravelPlan />} />
           </Routes>
         </Content>
         <Footer
