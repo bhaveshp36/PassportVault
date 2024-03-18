@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Space } from "antd";
-import ViewRecord from "./Modals/ViewRecord";
+import { Link } from 'react-router-dom';
+
 
 const columns = [
   {
@@ -27,7 +28,7 @@ const columns = [
     render: (_, record) => (
       <>
         <Space size="middle">
-          <a>View</a>
+        <Link to={`/members/${record._id}`}>View</Link>
           <a>Edit</a>
           <a>Delete</a>
         </Space>

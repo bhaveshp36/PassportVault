@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   DesktopOutlined,
@@ -10,17 +12,18 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Input, Space } from "antd";
 
-
 import Members from "./Members";
 import Dashboard from "./Dashboard";
 import TravelPlan from "./TravelPlan";
 import Files from "./Files";
 import Settings from "./Settings";
+import ViewMember from "./Modals/ViewMember.jsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-function getItem(label, key, icon, children) {
+function getItem(path, label, key, icon, children) {
   return {
+    path,
     key,
     icon,
     children,
@@ -30,23 +33,28 @@ function getItem(label, key, icon, children) {
 const { Search } = Input;
 
 const items = [
-  getItem("Dashboard", "1", <PieChartOutlined />),
-  getItem("Members", "2", <TeamOutlined />),
-  getItem("Travel Plan", "3", <DesktopOutlined />),
-  getItem("Files", "4", <FileOutlined />),
-  getItem("Settings", "5", <UserOutlined />),
+  getItem("dashboard", "Dashboard", "1", <PieChartOutlined />),
+  getItem("members", "Members", "2", <TeamOutlined />),
+  getItem("travel-plan", "Travel Plan", "3", <DesktopOutlined />),
+  getItem("files", "Files", "4", <FileOutlined />),
+  getItem("settings", "Settings", "5", <UserOutlined />),
 ];
 
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
-const App = () => {
-  const [collapsed, setCollapsed] = useState(false);
+const LayoutComponent = () => {
   const {
     token: { colorBgContainer, borderRadiusLG, colorSplit },
   } = theme.useToken();
+
+  const [collapsed, setCollapsed] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("1");
+
+  const navigate = useNavigate();
+
   const menuOnClick = (e) => {
     setSelectedMenu(e.key);
+    navigate(`/${items[e.key - 1].path}`);
   };
 
   return (
@@ -96,27 +104,16 @@ const App = () => {
             />
           </Space>
         </Header>
-        <Content
-          style={{
-            margin: 0,
-            padding: 16,
-            background: colorSplit,
-          }}
-        >
-          {(() => {
-            switch (selectedMenu) {
-              case "1":
-                return <Dashboard />;
-              case "2":
-                return <Members />;
-              case "3":
-                return <TravelPlan />;
-              case "4":
-                return <Files />;
-              case "5":
-                return <Settings />;
-            }
-          })()}
+        <Content style={{ margin: 0, padding: 16, background: colorSplit }}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/members" element={<Members />} />
+            <Route path="/travel-plan" element={<TravelPlan />} />
+            <Route path="/files" element={<Files />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/members/:id" element={<ViewMember />} />
+          </Routes>
         </Content>
         <Footer
           style={{
@@ -127,6 +124,13 @@ const App = () => {
         </Footer>
       </Layout>
     </Layout>
+  );
+};
+const App = () => {
+  return (
+    <Router>
+      <LayoutComponent />
+    </Router>
   );
 };
 export default App;
