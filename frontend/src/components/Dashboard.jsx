@@ -114,7 +114,7 @@ const Dashboard = () => {
             <Table
               size="small"
               virtual={true}
-              scroll={{ y: true }}
+              scroll={{ x: true }}
               rowKey={(record) => record._id}
               pagination={false}
               style={tableStyle}
@@ -129,7 +129,7 @@ const Dashboard = () => {
             <Table
               virtual={true}
               size="small"
-              scroll={{ y: true }}
+              scroll={{ x: true }}
               rowKey={(record) => record._id}
               pagination={false}
               style={tableStyle}
@@ -145,7 +145,7 @@ const Dashboard = () => {
             <Table
               virtual={true}
               size="small"
-              scroll={{ y: true }}
+              scroll={{ x: true }}
               rowKey={(record) => record._id}
               pagination={false}
               style={tableStyle}
@@ -164,7 +164,7 @@ const Dashboard = () => {
             <Table
               virtual={true}
               size="small"
-              scroll={{ y: true }}
+              scroll={{ x: true }}
               rowKey={(record) => record._id}
               pagination={false}
               style={tableStyle}
