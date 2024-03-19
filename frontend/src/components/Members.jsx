@@ -72,14 +72,16 @@ const Members = () => {
 
   return (
     <>
-      <Table
-        rowKey={(record) => record._id}
-        pagination={{ position: ["bottomRight"] }}
-        columns={columns}
-        dataSource={members}
-        onChange={onChange}
-      />
-      <FloatButton onClick={NewMember} />
+      <div>
+        <Table
+          rowKey={(record) => record._id}
+          pagination={{ position: ["bottomCenter"] }}
+          columns={columns}
+          dataSource={members}
+          onChange={onChange}
+        />
+        <FloatButton onClick={NewMember} />
+      </div>
     </>
   );
 };

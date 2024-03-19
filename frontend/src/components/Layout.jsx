@@ -9,8 +9,11 @@ import {
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
+  SettingOutlined,
+  BellOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme, Input, Space, Avatar, Flex } from "antd";
+import { Layout, Menu, theme, Input, Space, Avatar, Dropdown } from "antd";
 
 import Members from "./Members";
 import Dashboard from "./Dashboard";
@@ -82,30 +85,40 @@ const LayoutComponent = () => {
       <Layout>
         <Header
           style={{
+            display: "flex", // Add this line
+            justifyContent: "space-between", // Add this line
             margin: 0,
             padding: 0,
             background: colorBgContainer,
             width: "auto",
           }}
-          align="center"
         >
-          <Space direction="vertical" align="center">
-            <Search
-              style={{
-                margin: 10,
-                borderRadius: borderRadiusLG,
-                width: "50vw",
-              }}
-              allowClear
-              margin="auto"
-              placeholder="Search"
-              enterButton
-              size="large"
-              onSearch={onSearch}
-            />
-          </Space>
+          <div
+            style={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            <Space direction="vertical" align="center">
+              <Search
+                style={{
+                  margin: 10,
+                  borderRadius: borderRadiusLG,
+                  width: "50vw",
+                }}
+                allowClear
+                margin="auto"
+                placeholder="Search"
+                enterButton
+                size="large"
+                onSearch={onSearch}
+              />
+            </Space>
+          </div>
 
-          <Avatar shape="square" size={"large"} icon={<UserOutlined />} />
+          <Avatar
+            shape="square"
+            size={"large"}
+            icon={<UserOutlined />}
+            style={{ margin: 10 }}
+          />
         </Header>
         <Content style={{ margin: 0, padding: 16, background: colorSplit }}>
           <Routes>

@@ -3,13 +3,69 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Space, Card } from "antd";
 
-const columns = [
+// const columns = [
+//   {
+//     title: "Name",
+//     dataIndex: "givenName",
+//   },
+//   {
+//     title: "surname",
+//     dataIndex: "surname",
+//   },
+//   {
+//     title: "Type",
+//     dataIndex: "memberType",
+//   },
+//   {
+//     title: "Date",
+//     dataIndex: "joiningDate",
+//   },
+// ];
+
+const visaAppStatusColumns = [
   {
     title: "Name",
     dataIndex: "givenName",
   },
   {
-    title: "surname",
+    title: "Country",
+    dataIndex: "surname",
+  },
+  {
+    title: "Visa Type",
+    dataIndex: "memberType",
+  },
+  {
+    title: "Status",
+    dataIndex: "joiningDate",
+  },
+];
+
+const upcomingTravelColumns = [
+  {
+    title: "Name",
+    dataIndex: "givenName",
+  },
+  {
+    title: "Country",
+    dataIndex: "surname",
+  },
+  {
+    title: "Date of Departure",
+    dataIndex: "memberType",
+  },
+  {
+    title: "Date of Arrival",
+    dataIndex: "joiningDate",
+  },
+];
+const expiringVisaColumns = [
+  {
+    title: "Name",
+    dataIndex: "givenName",
+  },
+  {
+    title: "Country",
     dataIndex: "surname",
   },
   {
@@ -17,12 +73,12 @@ const columns = [
     dataIndex: "memberType",
   },
   {
-    title: "Date",
+    title: "Date of Expiry",
     dataIndex: "joiningDate",
   },
 ];
 
-const expiringPassportscolumns = [
+const expiringPassportsColumns = [
   {
     title: "Name",
     dataIndex: "givenName",
@@ -92,90 +148,52 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const cardStyle = {
-    width: "100%",
-    height: "100%",
-    padding: "0px",
-    margin: "0",
-  };
-
-  const tableStyle = {
-    height: "100%",
-    width: "100%",
-    margin: "0",
-    padding: "0",
-  };
-
   return (
     <>
-      <Space direction="vertical" style={{ display: "flex" }}>
-        <Space style={{ display: "flex" }}>
-          <Card bordered={false} title="Expiring Passport" style={cardStyle}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "10px",
+        }}
+      >
+        {[
+          {
+            title: "Expiring Passport",
+            data: expiringPassportData,
+            columns: expiringPassportsColumns,
+          },
+          {
+            title: "Expiring Visa",
+            data: expiringVisaData,
+            columns: expiringVisaColumns,
+          },
+          {
+            title: "Upcoming Travel Plan",
+            data: upcomingTravelData,
+            columns: upcomingTravelColumns,
+          },
+          {
+            title: "Visa Application Status",
+            data: visaApplicationStatusData,
+            columns: visaAppStatusColumns,
+          },
+        ].map((item, index) => (
+          <Card key={index} title={item.title} style={{}}>
             <Table
               size="small"
-              virtual={true}
-              scroll={{ x: true }}
+              scroll={{ y: 300 }}
               rowKey={(record) => record._id}
               pagination={false}
-              style={tableStyle}
+              style={{}}
               bordered={true}
-              columns={columns}
-              dataSource={expiringVisaData}
+              columns={item.columns}
+              dataSource={item.data}
               onChange={onChange}
             />
           </Card>
-
-          <Card bordered={false} title="Expiring Visa" style={cardStyle}>
-            <Table
-              virtual={true}
-              size="small"
-              scroll={{ x: true }}
-              rowKey={(record) => record._id}
-              pagination={false}
-              style={tableStyle}
-              bordered={true}
-              columns={columns}
-              dataSource={expiringVisaData}
-              onChange={onChange}
-            />
-          </Card>
-        </Space>
-        <Space>
-          <Card bordered={false} title="Upcoming Travel Plan" style={cardStyle}>
-            <Table
-              virtual={true}
-              size="small"
-              scroll={{ x: true }}
-              rowKey={(record) => record._id}
-              pagination={false}
-              style={tableStyle}
-              bordered={true}
-              columns={columns}
-              dataSource={expiringVisaData}
-              onChange={onChange}
-            />
-          </Card>
-
-          <Card
-            bordered={false}
-            title="Visa Application Status"
-            style={cardStyle}
-          >
-            <Table
-              virtual={true}
-              size="small"
-              scroll={{ x: true }}
-              rowKey={(record) => record._id}
-              pagination={false}
-              style={tableStyle}
-              bordered={true}
-              columns={columns}
-              dataSource={expiringVisaData}
-              onChange={onChange}
-            />
-          </Card>
-        </Space>
-      </Space>
+        ))}
+      </div>
     </>
   );
 };
