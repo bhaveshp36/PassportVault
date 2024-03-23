@@ -9,8 +9,8 @@ const {
 } = require("@aws-sdk/client-s3");
 
 const credentials = {
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  accessKeyId: `${process.env.S3_ACCESS_KEY}`,
+  secretAccessKey: `${process.env.S3_SECRET_KEY}`,
 };
 
 // Create an S3 service client object.
@@ -32,13 +32,13 @@ async function listBuckets() {
   }
 }
 
-async function listAllObjects(bucketName) {
+async function listAllObjects(bucketName = `${process.env.S3_BUCKET_NAME}`) {
   try {
     // Use ListObjectsCommand to get a list of objects in the bucket
     const objects = await s3Client.send(
       new ListObjectsCommand({ Bucket: bucketName })
     );
-    console.log(objects);
+    //console.log(objects);
     return objects.Contents;
   } catch (error) {
     console.error("Error listing objects in the bucket:", error);
@@ -47,7 +47,7 @@ async function listAllObjects(bucketName) {
 }
 
 async function putFile(
-  bucketName = process.env.S3_BUCKET_NAME,
+  bucketName = `${process.env.S3_BUCKET_NAME}`,
   folderName,
   fileName,
   fileContent

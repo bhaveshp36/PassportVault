@@ -124,7 +124,7 @@ const Dashboard = () => {
       }
 
       const expiringPassportResponse = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/expiringPassports`
+        `${import.meta.env.VITE_BACKEND_URL}/expiring-passports`
       );
       if (expiringPassportResponse.data) {
         setExpiringPassportData(expiringPassportResponse.data);
@@ -181,9 +181,10 @@ const Dashboard = () => {
         ].map((item, index) => (
           <Card key={index} title={item.title} style={{}}>
             <Table
+              loading={item.data.length === 0}
               size="small"
               scroll={{ y: 300 }}
-              rowKey={(record) => record._id}
+              rowKey={(record) => record.id}
               pagination={false}
               style={{}}
               bordered={true}

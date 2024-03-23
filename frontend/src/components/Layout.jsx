@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, matchPath } from "react-router-dom";
 
 import {
   DesktopOutlined,
@@ -20,8 +20,8 @@ import Dashboard from "./Dashboard";
 import TravelPlan from "./TravelPlans.jsx";
 import Files from "./Files";
 import Settings from "./Settings";
-import ViewMember from "./Modals/ViewMember.jsx";
-import ViewTravelPlan from "./Modals/ViewTravelPlan.jsx";
+import ViewMember from "./modals/view/ViewMember.jsx";
+import ViewTravelPlan from "./modals/view/ViewTravelPlan.jsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -67,50 +67,54 @@ const LayoutComponent = () => {
         minHeight: "100vh",
       }}
     >
-      <Sider
+      {/* <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical" />
-        <Menu
-          style={{ marginTop: "2vw" }}
-          theme="dark"
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-          onClick={menuOnClick}
-        />
+        
       </Sider>
+       */}
       <Layout>
         <Header
           style={{
-            display: "flex", // Add this line
-            justifyContent: "space-between", // Add this line
-            margin: 0,
-            padding: 0,
-            background: colorBgContainer,
-            width: "auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
+          <div className="demo-logo" />
+          <Menu
+            style={{
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
+            theme="dark"
+            defaultSelectedKeys={["1"]}
+            mode="horizontal"
+            items={items}
+            onClick={menuOnClick}
+          />
           <div
             style={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
-            <Space direction="vertical" align="center">
-              <Search
-                style={{
-                  margin: 10,
-                  borderRadius: borderRadiusLG,
-                  width: "50vw",
-                }}
-                allowClear
-                margin="auto"
-                placeholder="Search"
-                enterButton
-                size="large"
-                onSearch={onSearch}
-              />
-            </Space>
+            <Search
+              style={{
+                borderRadius: borderRadiusLG,
+                width: "30vw",
+              }}
+              allowClear
+              margin="auto"
+              placeholder="Search"
+              enterButton
+              size="large"
+              onSearch={onSearch}
+            />
           </div>
 
           <Avatar

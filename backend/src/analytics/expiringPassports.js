@@ -28,6 +28,7 @@ router.get("/", async (req, res) => {
         );
         if (passport) {
           return {
+            _id: member._id,
             givenName: member.givenName,
             surname: member.surname,
             passportNo: passport.passportNo,

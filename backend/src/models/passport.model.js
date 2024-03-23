@@ -35,15 +35,12 @@ const passportSchema = new mongoose.Schema(
     },
     previousPassportNo: {
       type: String,
-      required: true,
     },
     previousPassportDateOfIssue: {
       type: Date,
-      required: false,
     },
     previousPassportPlaceOfIssue: {
       type: String,
-      required: false,
     },
     documents: {
       coverPage: {

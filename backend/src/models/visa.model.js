@@ -24,7 +24,7 @@ const visaSchema = new mongoose.Schema(
       required: true,
     },
     noOfEntry: {
-      type: Number,
+      type: String,
       required: true,
     },
     visaNo: {

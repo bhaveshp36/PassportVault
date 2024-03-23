@@ -39,7 +39,14 @@ app.use("/visa-applications", visaApplicationRoutes);
 
 // Analytics Route //
 const expiringPassportsRoute = require("./analytics/expiringPassports");
-app.use("/expiringPassports", expiringPassportsRoute);
+app.use("/expiring-passports", expiringPassportsRoute);
+const passportsByParentRoute = require("./analytics/getPassportsByParent");
+app.use("/passports-by-parent", passportsByParentRoute);
+const visaByPassportRoute = require("./analytics/getVisaByParent");
+app.use("/visa-by-passport", visaByPassportRoute);
+
+const fileRouter = require("./routes/files.route");
+app.use("/files", fileRouter);
 
 // Default Route //
 app.get("/", (req, res) => {
