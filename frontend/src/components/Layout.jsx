@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect, Children } from "react";
 import { useNavigate, useLocation, matchPath } from "react-router-dom";
 
 import {
@@ -14,14 +13,6 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Input, Space, Avatar, Dropdown } from "antd";
-
-import Members from "./Members";
-import Dashboard from "./Dashboard";
-import TravelPlan from "./TravelPlans.jsx";
-import Files from "./Files";
-import Settings from "./Settings";
-import ViewMember from "./modals/view/ViewMember.jsx";
-import ViewTravelPlan from "./modals/view/ViewTravelPlan.jsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -46,7 +37,9 @@ const items = [
 
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
-const LayoutComponent = () => {
+const LayoutComponent = (
+  { children } // eslint-disable-line
+) => {
   const {
     token: { colorBgContainer, borderRadiusLG, colorSplit },
   } = theme.useToken();
@@ -125,16 +118,7 @@ const LayoutComponent = () => {
           />
         </Header>
         <Content style={{ margin: 0, padding: 16, background: colorSplit }}>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/members" element={<Members />} />
-            <Route path="/travel-plan" element={<TravelPlan />} />
-            <Route path="/files" element={<Files />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/members/:id" element={<ViewMember />} />
-            <Route path="/travel-plan/:id" element={<ViewTravelPlan />} />
-          </Routes>
+          {children}
         </Content>
         <Footer
           style={{
@@ -147,11 +131,5 @@ const LayoutComponent = () => {
     </Layout>
   );
 };
-const App = () => {
-  return (
-    <Router>
-      <LayoutComponent />
-    </Router>
-  );
-};
-export default App;
+
+export default LayoutComponent;

@@ -2,10 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./common/swaggerDoc");
+//const csurf = require("csurf");
 
 const app = express();
 
 app.use(cors());
+// Enable CSRF protection
+//const csrfProtection = csurf({ cookie: true });
+//app.use(csrfProtection);
 
 //For body Parsing//
 app.use(express.json());
@@ -13,6 +17,12 @@ app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes //
+
+// admin routes
+const adminRoutes = require("./routes/admin.route");
+app.use("/login", adminRoutes);
+
+// Routes for the models
 const memberRoutes = require("./routes/member.route");
 app.use("/members", memberRoutes);
 
@@ -40,8 +50,10 @@ app.use("/visa-applications", visaApplicationRoutes);
 // Analytics Route //
 const expiringPassportsRoute = require("./analytics/expiringPassports");
 app.use("/expiring-passports", expiringPassportsRoute);
+
 const passportsByParentRoute = require("./analytics/getPassportsByParent");
 app.use("/passports-by-parent", passportsByParentRoute);
+
 const visaByPassportRoute = require("./analytics/getVisaByParent");
 app.use("/visa-by-passport", visaByPassportRoute);
 

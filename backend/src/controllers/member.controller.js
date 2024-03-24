@@ -14,7 +14,7 @@ exports.createMember = async (req, res) => {
 exports.getMembers = async (req, res) => {
   try {
     const members = await Member.find({});
-    var membersObj = members.map((member) => member.toObject());
+    let membersObj = members.map((member) => member.toObject());
     membersObj.forEach((member) => {
       if (member.joiningDate) {
         member.joiningDate = member.joiningDate.toISOString().split("T")[0];
@@ -37,7 +37,7 @@ exports.getMember = async (req, res) => {
     if (!member) {
       return res.status(404).send();
     }
-    var memberObj = member.toObject();
+    let memberObj = member.toObject();
     if (memberObj.joiningDate instanceof Date) {
       memberObj.joiningDate = memberObj.joiningDate.toISOString().split("T")[0];
     }

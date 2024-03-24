@@ -113,18 +113,22 @@ components:
     Organization:
       type: object
       properties:
-        organization_id:
+        organizationName:
           type: string
-        name:
+        ownerName:
           type: string
-        legal_entity_type:
+        legalEntityType:
           type: string
-        billing_info:
+          enum:
+            - Individual
+            - Company
+            - NGO
+        billingInfo:
           type: object
           properties:
-            billing_address:
+            billingAddress:
               type: string
-            contact_person_name:
+            contactPersonName:
               type: string
             email:
               type: string

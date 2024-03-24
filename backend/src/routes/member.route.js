@@ -1,5 +1,7 @@
 const express = require("express");
 const memberController = require("../controllers/member.controller");
+const auth = require("../middleware/authentication.js");
+const permit = require("../middleware/authorization.js");
 
 const router = express.Router();
 
@@ -10,7 +12,12 @@ router.post("/", memberController.createMember);
 router.get("/", memberController.getMembers);
 
 // Retrieve a single member with id;
-router.get("/:id", memberController.getMember);
+router.get(
+  "/:id",
+  auth,
+  permit(["owner", "admin"]),
+  memberController.getMember
+);
 
 // Update a member with id;
 router.put("/:id", memberController.updateMember);

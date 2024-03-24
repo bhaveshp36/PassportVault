@@ -60,7 +60,7 @@ paths:
           description: User not found
         "500":
           description: Internal server error
-    put:
+    patch:
       tags:
         - Users
       summary: Update a user by ID
@@ -113,9 +113,7 @@ components:
     User:
       type: object
       properties:
-        user_id:
-          type: string
-        organization_id:
+        parentOrganizationId:
           type: string
         username:
           type: string
@@ -125,9 +123,12 @@ components:
           type: string
         accessLevel:
           type: string
+          enum:
+            - owner
+            - admin
+            - user
       required:
-        - user_id
-        - organization_id
+        - parentOrganizationId
         - username
         - email
         - pwdHash

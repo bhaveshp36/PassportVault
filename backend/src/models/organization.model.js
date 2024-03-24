@@ -1,25 +1,26 @@
 const mongoose = require("mongoose");
 
 const organizationSchema = new mongoose.Schema({
-  organization_id: {
+  organizationName: {
     type: String,
     required: true,
     unique: true,
   },
-  name: {
+  ownerName: {
     type: String,
     required: true,
   },
-  legal_entity_type: {
+  legalEntityType: {
     type: String,
     required: true,
+    enum: ["Individual", "Company", "NGO"],
   },
-  billing_info: {
-    billing_address: {
+  billingInfo: {
+    billingAddress: {
       type: String,
       required: true,
     },
-    contact_person_name: {
+    contactPersonName: {
       type: String,
       required: true,
     },

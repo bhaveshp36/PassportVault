@@ -1,19 +1,21 @@
 const User = require("../models/user.model.js");
+const bcrypt = require("bcrypt");
 
 exports.createUser = async (req, res) => {
-  const user = new User(req.body);
   try {
-    await user.save();
-    res.status(201).send(user);
+    const hashedPassword = await bcrypt.hash(req.body.pwdHash, 10); // Hashing the password
+    req.body.pwdHash = hashedPassword; // Setting the hashed password
+    const newUser = await User.create(req.body);
+    const userWithoutPwd = await User.findById(newUser._id).select('-pwdHash');
+    res.status(201).json(userWithoutPwd);
   } catch (error) {
-    res.status(400).send(error);
-    console.log(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({}).select('-pwdHash');
     res.send(users);
   } catch (error) {
     res.status(500).send(error);
@@ -23,7 +25,7 @@ exports.getUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select('-pwdHash');
     if (!user) {
       return res.status(404).send();
     }
@@ -36,17 +38,23 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!user) {
-      return res.status(404).send();
+    let updateFields = req.body;
+    if (req.body.pwdHash) {
+      const hashedPassword = await bcrypt.hash(req.body.pwdHash, 10); // Hashing the password
+      updateFields.pwdHash = hashedPassword; // Setting the hashed password
     }
-    res.send(user);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      updateFields,
+      { new: true }
+    ).select('-pwdHash');
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(400).send(error);
-    console.log(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -62,3 +70,4 @@ exports.deleteUser = async (req, res) => {
     console.log(error);
   }
 };
+

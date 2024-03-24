@@ -2,11 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    user_id: {
-      type: String,
-      required: true,
-    },
-    organization_id: {
+    parentOrganizationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "organization",
       required: true,
@@ -25,6 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     accessLevel: {
       type: String,
+      enum: ["owner", "admin", "user"],
       required: true,
     },
   },
