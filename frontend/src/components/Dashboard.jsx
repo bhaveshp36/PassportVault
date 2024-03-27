@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Space, Card } from "antd";
+import LayoutComponent from "./Layout";
 
 // const columns = [
 //   {
@@ -101,7 +102,7 @@ const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
 
-const Dashboard = () => {
+const App = () => {
   const [expiringVisaData, setExpiringVisaData] = useState([]);
   const [expiringPassportData, setExpiringPassportData] = useState([]);
   const [upcomingTravelData, setUpcomingTravelData] = useState([]);
@@ -196,6 +197,14 @@ const Dashboard = () => {
         ))}
       </div>
     </>
+  );
+};
+
+const Dashboard = () => {
+  return (
+    //<LayoutComponent>
+    <App />
+    //</LayoutComponent>
   );
 };
 

@@ -1,12 +1,29 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Card, Checkbox, Form, Input } from "antd";
 import axios from "axios";
-
+import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 
 const Login = () => {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    let isTokenExpired = false;
+
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const dateNow = new Date();
+      isTokenExpired = decodedToken.exp < dateNow.getTime() / 1000;
+    }
+
+    if (token && !isTokenExpired) {
+      navigate("/dashboard");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onFinish = async (values) => {
     console.log("Submit:", values);
@@ -20,6 +37,7 @@ const Login = () => {
       // Here you can handle the response, for example save the token in localStorage
       // Then redirect to another page
       console.log("Token:", Cookies.get("token"));
+      navigate("/dashboard");
     } catch (error) {
       console.log("Failed:", error);
     }

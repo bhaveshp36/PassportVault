@@ -36,6 +36,17 @@ exports.getUser = async (req, res) => {
   }
 };
 
+exports.getUsersByParentOrganizationId = async (req, res) => {
+  try {
+    const parentOrganizationId = req.params.parentOrganizationId;
+    const users = await User.find({ parentOrganizationId }).select('-pwdHash');
+    res.send(users);
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error);
+  }
+};
+
 exports.updateUser = async (req, res) => {
   try {
     let updateFields = req.body;

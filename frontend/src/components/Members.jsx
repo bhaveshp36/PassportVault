@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Space, FloatButton, Modal } from "antd";
+import { Table, Space, FloatButton, Modal, Card, Button } from "antd";
 import { Link } from "react-router-dom";
 import AddMember from "./modals/create/AddMember.jsx";
 import UpdateMember from "./modals/update/UpdateMember.jsx";
@@ -36,8 +36,12 @@ const NewMember = () => {
   Modal.info({
     title: "Add New Member",
     content: <AddMember />,
-    //onOk() {},
+    onOk: () => {
+      Modal.destroyAll();
+    },
     width: "60vw",
+    closable: true,
+    okText: "Close",
   });
 };
 
@@ -103,18 +107,27 @@ const Members = () => {
   return (
     <>
       <div>
-        <Table
-          rowKey={(record) => record._id}
-          pagination={{ position: ["bottomCenter"] }}
-          bordered
-          loading={members.length === 0}
-          columns={columns}
-          dataSource={members}
-          onChange={onChange}
-          rowSelection
-          style={{ width: "100%", padding: "10px", height: "100%" }}
-        />
-        <FloatButton onClick={NewMember} />
+        <Card
+          title="Members"
+          style={{ width: "100%", height: "100%" }}
+          extra={
+            <Button type="primary" onClick={NewMember}>
+              Create New Member
+            </Button>
+          }
+        >
+          <Table
+            rowKey={(record) => record._id}
+            pagination={{ position: ["bottomCenter"] }}
+            bordered
+            loading={members.length === 0}
+            columns={columns}
+            dataSource={members}
+            onChange={onChange}
+            rowSelection
+            style={{ width: "100%", padding: "10px", height: "100%" }}
+          />
+        </Card>
       </div>
     </>
   );

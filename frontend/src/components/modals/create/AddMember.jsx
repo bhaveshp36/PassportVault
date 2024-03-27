@@ -1,44 +1,118 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
-import { Button, DatePicker, Form, Input } from "antd";
+import React, { useState, useEffect } from "react";
+import { App, Form, Input, Button, DatePicker, Upload } from "antd";
+import moment from "moment";
 import axios from "axios";
+import PropTypes from "prop-types";
+import { UploadOutlined } from "@ant-design/icons";
 
-const AddMemberModal = () => {
-  const [name, setName] = useState();
-  const [fatherName, setFatherName] = useState();
-  const [motherName, setMotherName] = useState();
-  const [dob, setDob] = useState(Date);
-  const [pob, setPob] = useState();
-  const [doj, setDoj] = useState(Date);
+const CreateMemberForm = ({ onSubmit }) => {
+  const { message } = App.useApp();
+  const [formData, setFormData] = useState({});
+  const [fileList, setFileList] = useState([
+    {
+      uid: "-1",
+      name: "xxx.png",
+      status: "done",
+      url: "http://www.baidu.com/xxx.png",
+    },
+  ]);
 
-  const onDobChange = (date, dateString) => {
-    // console.log(date, dateString);
-    setDob(new Date(dateString));
-  };
-  const onDojChange = (date, dateString) => {
-    // console.log(date, dateString);
-    setDoj(new Date(dateString));
-  };
+  const handleChange = (info) => {
+    let newFileList = [...info.fileList];
 
-  const handleSave = async () => {
-    console.log(name, fatherName, motherName, dob, pob, doj);
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/members`,
-      {
-        name,
-        fatherName,
-        motherName,
-        birthdate: dob,
-        placeOfBirth: pob,
-        joiningDate: doj,
-        memberId: "12345",
+    // 1. Limit the number of uploaded files
+    // Only to show two recent uploaded files, and old ones will be replaced by the new
+    newFileList = newFileList.slice(-2);
+
+    // 2. Read from response and show file link
+    newFileList = newFileList.map((file) => {
+      if (file.response) {
+        // Component will show file.url as link
+        file.url = file.response.url;
       }
-    );
-    console.log(response.data);
+      return file;
+    });
+    setFileList(newFileList);
   };
+  const props = {
+    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    onChange: handleChange,
+    multiple: true,
+  };
+
+  const initialValues = {
+    memberType: "",
+    surname: "",
+    givenName: "",
+    birthDate: null,
+    birthPlace: "",
+    nationality: "",
+    fatherName: "",
+    motherName: "",
+    spouseName: "",
+    education: "",
+    joiningDate: null,
+    address: "",
+    documents: "",
+    otherInfo: "",
+  };
+
+  useEffect(() => {
+    // Fetch existing member data by memberId from backend
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/members/`)
+      .then((response) => {
+        console.log("Member created:", response.data);
+        message.success("Member created successfully");
+      })
+      .catch((error) => {
+        console.error("Error creating member:", error);
+        message.error("Error creating member")
+      });
+  });
+
+  const handleFormChange = (changedValues, allValues) => {
+    const handleFormChange = (changedValues, allValues) => {
+      // Check if birthDate or joiningDate has changed
+      if (changedValues.birthDate || changedValues.joiningDate) {
+        // Format the dates to a string before setting the form data
+        setFormData({
+          ...allValues,
+          birthDate: allValues.birthDate
+            ? allValues.birthDate.format("YYYY-MM-DD")
+            : null,
+          joiningDate: allValues.joiningDate
+            ? allValues.joiningDate.format("YYYY-MM-DD")
+            : null,
+        });
+      } else {
+        setFormData(allValues);
+      }
+    };
+  };
+
+  const handleSubmit = () => {
+    onSubmit(formData);
+  };
+
   return (
-    // initialValues={formData} onValuesChange={handleFormChange} onFinish={handleSubmit}
-    <Form>
+    <Form
+      initialValues={initialValues}
+      onValuesChange={handleFormChange}
+      onFinish={handleSubmit}
+    >
+      {/* Joining Date */}
+      <Form.Item
+        label="Member Type"
+        name="memberType"
+        rules={[{ required: true }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item label="Joining Date" name="joiningDate">
+        <DatePicker style={{ width: "100%" }} />
+      </Form.Item>
       {/* Personal Information */}
       <Form.Item label="Personal Information" style={{ marginBottom: "20px" }}>
         {/* Surname */}
@@ -213,31 +287,31 @@ const AddMemberModal = () => {
       </Form.Item>
 
       {/* Documents */}
+
       <Form.Item label="Documents" style={{ marginBottom: "20px" }}>
+        {/* Upload */}
+
         {/* Identity */}
         <Form.Item
           name={["documents", "identity"]}
           label="Identity"
           style={{ display: "block" }}
-        >
-          <Input />
-        </Form.Item>
+        ></Form.Item>
         {/* Member Certificate */}
         <Form.Item
           name={["documents", "memberCertificate"]}
           label="Member Certificate"
           style={{ display: "block" }}
-        >
-          <Input />
-        </Form.Item>
+        ></Form.Item>
         {/* Other */}
         <Form.Item
           name={["documents", "other"]}
           label="Other"
           style={{ display: "block" }}
-        >
-          <Input />
-        </Form.Item>
+        ></Form.Item>
+        <Upload {...props} fileList={fileList}>
+          <Button icon={<UploadOutlined />}>Upload</Button>
+        </Upload>
       </Form.Item>
 
       {/* Other Information */}
@@ -252,10 +326,15 @@ const AddMemberModal = () => {
       {/* Submit Button */}
       <Form.Item style={{ textAlign: "center" }}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Create
         </Button>
       </Form.Item>
     </Form>
   );
 };
-export default AddMemberModal;
+
+CreateMemberForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+export default CreateMemberForm;

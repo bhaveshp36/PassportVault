@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, Children } from "react";
 import { useNavigate, useLocation, matchPath } from "react-router-dom";
+import LayoutContext from "./LayoutContext";
+import axios from "axios";
 
 import {
   DesktopOutlined,
@@ -44,6 +46,9 @@ const LayoutComponent = (
     token: { colorBgContainer, borderRadiusLG, colorSplit },
   } = theme.useToken();
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   const [collapsed, setCollapsed] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("1");
 
@@ -54,13 +59,29 @@ const LayoutComponent = (
     navigate(`/${items[e.key - 1].path}`);
   };
 
+  const handleSearch = async (value) => {
+    console.log(`Search query: ${value}`);
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/search?q=${value}`
+      );
+      console.log(`Search results: ${JSON.stringify(response.data, null, 2)}`);
+      setSearchResults(response.data);
+      const memberid = response.data[0]._id;
+      navigate(`/members/${memberid}`);
+    } catch (error) {
+      console.error(`Error during search: ${error}`);
+    }
+  };
+
   return (
-    <Layout
-      style={{
-        minHeight: "100vh",
-      }}
-    >
-      {/* <Sider
+    <LayoutContext.Provider value={{ selectedMenu, setSelectedMenu }}>
+      <Layout
+        style={{
+          minHeight: "100vh",
+        }}
+      >
+        {/* <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
@@ -69,66 +90,73 @@ const LayoutComponent = (
         
       </Sider>
        */}
-      <Layout>
-        <Header
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div className="demo-logo" />
-          <Menu
+        <Layout>
+          <Header
             style={{
-              position: "sticky",
-              top: 0,
-              zIndex: 1,
-              width: "100%",
               display: "flex",
+              justifyContent: "center",
               alignItems: "center",
             }}
-            theme="dark"
-            defaultSelectedKeys={["1"]}
-            mode="horizontal"
-            items={items}
-            onClick={menuOnClick}
-          />
-          <div
-            style={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
-            <Search
+            <div className="demo-logo" />
+            <Menu
               style={{
-                borderRadius: borderRadiusLG,
-                width: "30vw",
+                position: "sticky",
+                top: 0,
+                zIndex: 1,
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
               }}
-              allowClear
-              margin="auto"
-              placeholder="Search"
-              enterButton
-              size="large"
-              onSearch={onSearch}
+              theme="dark"
+              defaultSelectedKeys={["1"]}
+              mode="horizontal"
+              items={items}
+              onClick={menuOnClick}
             />
-          </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <Search
+                style={{
+                  borderRadius: borderRadiusLG,
+                  width: "30vw",
+                }}
+                allowClear
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                margin="auto"
+                placeholder="Search"
+                enterButton
+                size="large"
+                onSearch={handleSearch}
+              />
+            </div>
 
-          <Avatar
-            shape="square"
-            size={"large"}
-            icon={<UserOutlined />}
-            style={{ margin: 10 }}
-          />
-        </Header>
-        <Content style={{ margin: 0, padding: 16, background: colorSplit }}>
-          {children}
-        </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Passport Vault ©{new Date().getFullYear()}
-        </Footer>
+            <Avatar
+              shape="square"
+              size={"large"}
+              icon={<UserOutlined />}
+              style={{ margin: 10 }}
+            />
+          </Header>
+          <Content style={{ margin: 0, padding: 16, background: colorSplit }}>
+            {children}
+          </Content>
+          <Footer
+            style={{
+              textAlign: "center",
+            }}
+          >
+            Passport Vault ©{new Date().getFullYear()}
+          </Footer>
+        </Layout>
       </Layout>
-    </Layout>
+    </LayoutContext.Provider>
   );
 };
 

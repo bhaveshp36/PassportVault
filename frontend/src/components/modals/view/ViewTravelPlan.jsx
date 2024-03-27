@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Descriptions } from "antd";
+import { Card, Descriptions, Table } from "antd";
 import axios from "axios";
 
 const ViewTravelPlan = () => {
@@ -17,7 +17,7 @@ const ViewTravelPlan = () => {
         );
         console.log("Response Data:", response.data);
         settravelPlan(response.data);
-          
+
         console.log("Data fetched successfully!");
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -50,21 +50,11 @@ const ViewTravelPlan = () => {
     },
     {
       key: 5,
-      label: "Members",
-      children: travelPlan.members,
-    },
-    {
-      key: 6,
-      label: "Visa Applications ID",
-      children: travelPlan.visaApplications_id,
-    },
-    {
-      key: 7,
       label: "Documents",
       children: travelPlan.documents,
     },
     {
-      key: 8,
+      key: 6,
       label: "Other Info",
       children: travelPlan.otherInfo,
     },
@@ -77,10 +67,11 @@ const ViewTravelPlan = () => {
           <div>
             <Descriptions
               title="Travel Plan Details"
-              column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }}
+              column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }}
               bordered
               items={travelPlanDescriptionItems}
             />
+            <Table />
           </div>
         ) : (
           <p>Loading...</p>

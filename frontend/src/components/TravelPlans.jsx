@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Space } from "antd";
+import { Table, Space, Card } from "antd";
 import { Link } from "react-router-dom";
 
 const columns = [
@@ -64,13 +64,15 @@ const TravelPlans = () => {
 
   return (
     <>
-      <Table
-        rowKey={(record) => record._id}
-        pagination={{ position: ["bottomRight"] }}
-        columns={columns}
-        dataSource={TravelPlans}
-        onChange={onChange}
-      />
+      <Card title="Travel Plans">
+        <Table
+          rowKey={(record) => record._id}
+          pagination={{ position: ["bottomRight"] }}
+          columns={columns}
+          dataSource={TravelPlans}
+          onChange={onChange}
+        />
+      </Card>
     </>
   );
 };

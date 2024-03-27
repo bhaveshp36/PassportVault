@@ -38,6 +38,7 @@ exports.getMember = async (req, res) => {
       return res.status(404).send();
     }
     let memberObj = member.toObject();
+    
     if (memberObj.joiningDate instanceof Date) {
       memberObj.joiningDate = memberObj.joiningDate.toISOString().split("T")[0];
     }

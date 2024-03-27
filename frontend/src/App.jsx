@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import withAuth from "./withAuth.jsx";
 
 import Login from "./components/Login.jsx";
+
 import Dashboard from "./components/Dashboard.jsx";
 import LayoutComponent from "./components/Layout.jsx";
 import Members from "./components/Members.jsx";
@@ -13,18 +14,33 @@ import Settings from "./components/Settings.jsx";
 import ViewMember from "./components/modals/view/ViewMember.jsx";
 import ViewTravelPlan from "./components/modals/view/ViewTravelPlan.jsx";
 
+const AuthenticatedDashboard = withAuth(Dashboard);
+const AuthenticatedMembers = withAuth(Members);
+const AuthenticatedTravelPlans = withAuth(TravelPlans);
+const AuthenticatedFiles = withAuth(Files);
+const AuthenticatedSettings = withAuth(Settings);
+const AuthenticatedViewMember = withAuth(ViewMember);
+const AuthenticatedViewTravelPlan = withAuth(ViewTravelPlan);
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route
+          path="/dashboard"
+          element={
+            <LayoutComponent>
+              <AuthenticatedDashboard />
+            </LayoutComponent>
+          }
+        />
         <Route
           path="/members"
           element={
             <LayoutComponent>
-              <Members />
+              <AuthenticatedMembers />
             </LayoutComponent>
           }
         />
@@ -32,7 +48,7 @@ function App() {
           path="/travel-plan"
           element={
             <LayoutComponent>
-              <TravelPlans />
+              <AuthenticatedTravelPlans />
             </LayoutComponent>
           }
         />
@@ -40,7 +56,7 @@ function App() {
           path="/files"
           element={
             <LayoutComponent>
-              <Files />
+              <AuthenticatedFiles />
             </LayoutComponent>
           }
         />
@@ -48,7 +64,7 @@ function App() {
           path="/settings"
           element={
             <LayoutComponent>
-              <Settings />
+              <AuthenticatedSettings />
             </LayoutComponent>
           }
         />
@@ -56,7 +72,7 @@ function App() {
           path="/members/:id"
           element={
             <LayoutComponent>
-              <ViewMember />
+              <AuthenticatedViewMember />
             </LayoutComponent>
           }
         />
@@ -64,7 +80,7 @@ function App() {
           path="/travel-plan/:id"
           element={
             <LayoutComponent>
-              <ViewTravelPlan />
+              <AuthenticatedViewTravelPlan />
             </LayoutComponent>
           }
         />

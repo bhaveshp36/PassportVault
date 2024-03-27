@@ -14,6 +14,12 @@ router.get("/", auth, permit("owner"), UserController.getUsers);
 // Get a single user by ID
 router.get("/:id", UserController.getUser);
 
+// Get users by parent organization ID
+router.get(
+  "/parent/:parentOrganizationId",
+  UserController.getUsersByParentOrganizationId
+);
+
 // Update a user by ID
 router.patch("/:id", UserController.updateUser);
 

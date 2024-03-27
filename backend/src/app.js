@@ -60,6 +60,9 @@ app.use("/visa-by-passport", visaByPassportRoute);
 const fileRouter = require("./routes/files.route");
 app.use("/files", fileRouter);
 
+const searchRouter = require("./analytics/searchMember");
+app.use("/search", searchRouter);
+
 // Default Route //
 app.get("/", (req, res) => {
   res.send(
