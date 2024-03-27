@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Spin } from "antd";
+import { Button, Card, Spin } from "antd";
 import axios from "axios";
 import { Collapse, Descriptions } from "antd";
 import Cookies from "js-cookie";
@@ -64,11 +64,10 @@ const ViewMember = () => {
         setVisa(visas);
         console.log("Visas Data:", visa);
         console.log("Data fetched successfully!");
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data: ", error);
         setError(error.message);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -77,7 +76,11 @@ const ViewMember = () => {
   }, [id]);
 
   if (loading) {
-    return <Spin tip="Loading..." size="large" fullscreen />;
+    return (
+      <Spin tip="Loading..." size="large" fullscreen>
+        Loading...
+      </Spin>
+    );
   }
 
   if (error) {
@@ -89,6 +92,14 @@ const ViewMember = () => {
   };
   const onChange = (key) => {
     console.log(key);
+  };
+
+  const NewPassport = () => {
+    console.log("New Passport");
+  };
+
+  const NewVisa = () => {
+    console.log("New Visa");
   };
 
   const genExtra = (item) => (
@@ -119,6 +130,204 @@ const ViewMember = () => {
       </span>
     </>
   );
+
+  const passportItems = passport.map((item, index) => {
+    const visaItems = visa[index].map((item, index) => {
+      const visaDescriptionItems = [
+        {
+          key: 1,
+          label: "Parent Passport ID",
+          children: item.parentPassport_id,
+        },
+        {
+          key: 2,
+          label: "Passport No",
+          children: item.passportNo,
+        },
+        {
+          key: 3,
+          label: "Country",
+          children: item.country,
+        },
+        {
+          key: 4,
+          label: "Visa Type",
+          children: item.visaType,
+        },
+        {
+          key: 5,
+          label: "Category",
+          children: item.category,
+        },
+        {
+          key: 6,
+          label: "Number of Entry",
+          children: item.noOfEntry,
+        },
+        {
+          key: 7,
+          label: "Visa No",
+          children: item.visaNo,
+        },
+        {
+          key: 8,
+          label: "Valid From",
+          children: item.validFrom,
+        },
+        {
+          key: 9,
+          label: "Valid Until",
+          children: item.validUntil,
+        },
+        {
+          key: 10,
+          label: "Duration",
+          children: item.duration,
+        },
+        {
+          key: 11,
+          label: "Annotation",
+          children: item.annotation,
+        },
+        {
+          key: 12,
+          label: "Visa Application ID",
+          children: item.visaApplication_id,
+        },
+        {
+          key: 13,
+          label: "Documents",
+          children: item.documents,
+        },
+        {
+          key: 14,
+          label: "Other Info",
+          children: item.otherInfo,
+        },
+      ];
+
+      return {
+        key: index,
+        label: `${item.country} | ${item.visaNo} | ${item.validUntil}`,
+        children: (
+          <>
+            <Descriptions
+              column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }}
+              bordered
+              title="Visa Details"
+              items={visaDescriptionItems}
+            />
+          </>
+        ),
+        extra: genExtra(item),
+      };
+    });
+
+    const passportDescriptionItems = [
+      {
+        key: 1,
+        label: "Country",
+        children: item.country,
+      },
+      {
+        key: 2,
+        label: "Passport No",
+        children: item.passportNo,
+      },
+      {
+        key: 3,
+        label: "Date of Issue",
+        children: item.dateOfIssue,
+      },
+      {
+        key: 4,
+        label: "Date of Expiry",
+        children: item.dateOfExpiry,
+      },
+      {
+        key: 5,
+        label: "Place of Issue",
+        children: item.placeOfIssue,
+      },
+      {
+        key: 6,
+        label: "File No",
+        children: item.fileNo,
+      },
+      {
+        key: 7,
+        label: "Previous Passport No",
+        children: item.previousPassportNo,
+      },
+      {
+        key: 8,
+        label: "Previous Passport Date of Issue",
+        children: item.previousPassportDateOfIssue,
+      },
+      {
+        key: 9,
+        label: "Previous Passport Place of Issue",
+        children: item.previousPassportPlaceOfIssue,
+      },
+      {
+        key: 10,
+        label: "Cover Page",
+        children: item.documents.coverPage,
+      },
+      {
+        key: 11,
+        label: "First Page",
+        children: item.documents.firstPage,
+      },
+      {
+        key: 12,
+        label: "Last Page",
+        children: item.documents.lastPage,
+      },
+      {
+        key: 13,
+        label: "PDF",
+        children: item.documents.pdf,
+      },
+    ];
+
+    return {
+      key: index,
+      label: `${item.country} | ${item.passportNo} | ${item.dateOfExpiry}`,
+      children: (
+        <>
+          <Descriptions
+            column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }}
+            bordered
+            title="Passport Details"
+            items={passportDescriptionItems}
+          />
+          <br></br>
+          <Card
+            title="Visas"
+            extra={
+              <Button type="primary" onClick={NewVisa}>
+                Add New Visa
+              </Button>
+            }
+          >
+            {visaItems && visaItems.length > 0 ? (
+              <Collapse
+                defaultActiveKey={["0"]}
+                onChange={onChange}
+                expandIconPosition={expandIconPosition}
+                accordion
+                items={visaItems}
+              />
+            ) : (
+              <h3>No visas</h3>
+            )}{" "}
+          </Card>
+        </>
+      ),
+      extra: genExtra(item),
+    };
+  });
 
   const memberDescriptionItems = [
     {
@@ -207,196 +416,6 @@ const ViewMember = () => {
     },
   ];
 
-  const passportItems = passport.map((item, index) => {
-    const visaDescriptionItems = [
-      {
-        key: 1,
-        label: "Parent Passport ID",
-        children: visa.parentPassport_id,
-      },
-      {
-        key: 2,
-        label: "Passport No",
-        children: visa.passportNo,
-      },
-      {
-        key: 3,
-        label: "Country",
-        children: visa.country,
-      },
-      {
-        key: 4,
-        label: "Visa Type",
-        children: visa.visaType,
-      },
-      {
-        key: 5,
-        label: "Category",
-        children: visa.category,
-      },
-      {
-        key: 6,
-        label: "Number of Entry",
-        children: visa.noOfEntry,
-      },
-      {
-        key: 7,
-        label: "Visa No",
-        children: visa.visaNo,
-      },
-      {
-        key: 8,
-        label: "Valid From",
-        children: visa.validFrom,
-      },
-      {
-        key: 9,
-        label: "Valid Until",
-        children: visa.validUntil,
-      },
-      {
-        key: 10,
-        label: "Duration",
-        children: visa.duration,
-      },
-      {
-        key: 11,
-        label: "Annotation",
-        children: visa.annotation,
-      },
-      {
-        key: 12,
-        label: "Visa Application ID",
-        children: visa.visaApplication_id,
-      },
-      {
-        key: 13,
-        label: "Documents",
-        children: visa.documents,
-      },
-      {
-        key: 14,
-        label: "Other Info",
-        children: visa.otherInfo,
-      },
-    ];
-
-    const visaItems = visa[index].map((item, index) => ({
-      key: index,
-      label: `${item.country} | ${item.visaNo} | ${item.validUntil}`,
-      children: (
-        <>
-          <Descriptions
-            column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }}
-            bordered
-            title="Visa Details"
-            items={visaDescriptionItems}
-          />
-        </>
-      ),
-      extra: genExtra(item),
-    }));
-
-    const passportDescriptionItems = [
-      {
-        key: 1,
-        label: "Country",
-        children: item.country,
-      },
-      {
-        key: 2,
-        label: "Passport No",
-        children: item.passportNo,
-      },
-      {
-        key: 3,
-        label: "Date of Issue",
-        children: item.dateOfIssue,
-      },
-      {
-        key: 4,
-        label: "Date of Expiry",
-        children: item.dateOfExpiry,
-      },
-      {
-        key: 5,
-        label: "Place of Issue",
-        children: item.placeOfIssue,
-      },
-      {
-        key: 6,
-        label: "File No",
-        children: item.fileNo,
-      },
-      {
-        key: 7,
-        label: "Previous Passport No",
-        children: item.previousPassportNo,
-      },
-      {
-        key: 8,
-        label: "Previous Passport Date of Issue",
-        children: item.previousPassportDateOfIssue,
-      },
-      {
-        key: 9,
-        label: "Previous Passport Place of Issue",
-        children: item.previousPassportPlaceOfIssue,
-      },
-      {
-        key: 10,
-        label: "Cover Page",
-        children: item.documents.coverPage,
-      },
-      {
-        key: 11,
-        label: "First Page",
-        children: item.documents.firstPage,
-      },
-      {
-        key: 12,
-        label: "Last Page",
-        children: item.documents.lastPage,
-      },
-      {
-        key: 13,
-        label: "PDF",
-        children: item.documents.pdf,
-      },
-    ];
-
-    return {
-      key: index,
-      label: `${item.country} | ${item.passportNo} | ${item.dateOfExpiry}`,
-      children: (
-        <>
-          <Descriptions
-            column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }}
-            bordered
-            title="Passport Details"
-            items={passportDescriptionItems}
-          />
-          <br></br>
-          {visaItems && visaItems.length > 0 ? (
-            <>
-              <h3>Visas</h3>
-              <Collapse
-                defaultActiveKey={["0"]}
-                onChange={onChange}
-                expandIconPosition={expandIconPosition}
-                accordion
-                items={visaItems}
-              />
-            </>
-          ) : (
-            <h3>No visas</h3>
-          )}
-        </>
-      ),
-      extra: genExtra(item),
-    };
-  });
-
   return (
     <>
       <Card title={member.givenName + " " + member.surname}>
@@ -412,20 +431,31 @@ const ViewMember = () => {
               <br />
             </div>
           ) : (
-            <p>Loading...</p>
+            <Spin tip="Loading..." size="large">
+              Loading...
+            </Spin>
           )}
         </div>
-        {passportItems && passportItems.length > 0 ? (
-          <Collapse
-            title="Passports"
-            defaultActiveKey={["0"]}
-            onChange={onChange}
-            expandIconPosition={expandIconPosition}
-            items={passportItems}
-          />
-        ) : (
-          <h3>No Passports</h3>
-        )}
+        <Card
+          title="Passports"
+          extra={
+            <Button type="primary" onClick={NewPassport}>
+              Add New Passport
+            </Button>
+          }
+        >
+          {passportItems && passportItems.length > 0 ? (
+            <Collapse
+              title="Passports"
+              defaultActiveKey={["0"]}
+              onChange={onChange}
+              expandIconPosition={expandIconPosition}
+              items={passportItems}
+            />
+          ) : (
+            <h3>No Passports</h3>
+          )}
+        </Card>
       </Card>
     </>
   );

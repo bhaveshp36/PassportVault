@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, DatePicker } from "antd";
+import { Form, Input, Button, DatePicker, Spin } from "antd";
 import moment from "moment";
 import axios from "axios";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
 
 const EditMemberForm = ({ memberId, onSubmit }) => {
   const [formData, setFormData] = useState({});
@@ -26,12 +27,18 @@ const EditMemberForm = ({ memberId, onSubmit }) => {
     otherInfo: formData.otherInfo,
   };
 
+  const token = Cookies.get("token");
+
   useEffect(() => {
     console.log("Fetching member data...");
     console.log("Member ID:", memberId);
     // Fetch existing member data by memberId from backend
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/members/${memberId}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/members/${memberId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         const { birthDate, joiningDate, ...restData } = response.data;
         setFormData({
@@ -45,7 +52,7 @@ const EditMemberForm = ({ memberId, onSubmit }) => {
         console.error("Error fetching member data:", error);
         setLoading(false);
       });
-  }, [memberId]);
+  }, [memberId, token]);
 
   const handleFormChange = (changedValues, allValues) => {
     setFormData(allValues);
@@ -56,7 +63,11 @@ const EditMemberForm = ({ memberId, onSubmit }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Spin tip="Loading..." size="large">
+        Loading...
+      </Spin>
+    );
   }
 
   return (

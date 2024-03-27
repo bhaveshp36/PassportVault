@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Space, Card } from "antd";
+import { Table, Space, Card, Tag } from "antd";
 import LayoutComponent from "./Layout";
 
 // const columns = [
@@ -34,11 +34,26 @@ const visaAppStatusColumns = [
   },
   {
     title: "Visa Type",
-    dataIndex: "memberType",
+    dataIndex: "joiningDate",
   },
   {
     title: "Status",
-    dataIndex: "joiningDate",
+    dataIndex: "memberType",
+    render: (status) => {
+      let color;
+      if (status === "Witch") {
+        color = "volcano";
+      } else if (status === "Pending") {
+        color = "yellow";
+      } else if (status === "Wizard") {
+        color = "green";
+      }
+      return (
+        <Tag color={color} key={status}>
+          {status.toUpperCase()}
+        </Tag>
+      );
+    },
   },
 ];
 
@@ -63,19 +78,19 @@ const upcomingTravelColumns = [
 const expiringVisaColumns = [
   {
     title: "Name",
-    dataIndex: "givenName",
+    dataIndex: "memberName",
   },
   {
     title: "Country",
-    dataIndex: "surname",
+    dataIndex: "country",
   },
   {
     title: "Type",
-    dataIndex: "memberType",
+    dataIndex: "visaType",
   },
   {
     title: "Date of Expiry",
-    dataIndex: "joiningDate",
+    dataIndex: "validUntil",
   },
 ];
 
@@ -113,12 +128,12 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       const expiringVisaResponse = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/members`
+        `${import.meta.env.VITE_BACKEND_URL}/expiring-visas`
       );
       if (expiringVisaResponse.data) {
-        expiringVisaResponse.data.map((member) => {
-          if (member.joiningDate) {
-            member.joiningDate = member.joiningDate.split("T")[0];
+        expiringVisaResponse.data.map((data) => {
+          if (data.validUntil) {
+            data.validUntil = data.validUntil.split("T")[0];
           }
         });
         setExpiringVisaData(expiringVisaResponse.data);

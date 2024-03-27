@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Descriptions, Table } from "antd";
+import { Card, Descriptions, Space, Table } from "antd";
 import axios from "axios";
 
 const ViewTravelPlan = () => {
@@ -60,6 +60,40 @@ const ViewTravelPlan = () => {
     },
   ];
 
+  const handleEdit = (id) => {};
+  const handleDelete = (id) => {};
+
+  const columns = [
+    {
+      title: "Member Name",
+      dataIndex: "givenName",
+    },
+    {
+      title: "Surname",
+      dataIndex: "surname",
+    },
+    {
+      title: "Application ID",
+      dataIndex: "memberType",
+    },
+    {
+      title: "Status",
+      dataIndex: "joiningDate",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <>
+          <Space size="middle">
+            <a onClick={() => handleEdit(record._id)}>Edit</a>
+            <a onClick={() => handleDelete(record._id)}>Delete</a>
+          </Space>
+        </>
+      ),
+    },
+  ];
+
   return (
     <>
       <Card title={travelPlan.travelPlanName}>
@@ -71,7 +105,18 @@ const ViewTravelPlan = () => {
               bordered
               items={travelPlanDescriptionItems}
             />
-            <Table />
+            <br />
+            <Table
+              rowKey={(record) => record._id}
+              pagination={{ position: ["bottomCenter"] }}
+              bordered
+              loading={travelPlan.length === 0}
+              columns={columns}
+              //dataSource={travelPlan}
+              //onChange={onChange}
+              rowSelection
+              style={{ width: "100%", padding: "10px", height: "100%" }}
+            />
           </div>
         ) : (
           <p>Loading...</p>

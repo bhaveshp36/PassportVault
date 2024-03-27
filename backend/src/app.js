@@ -51,6 +51,9 @@ app.use("/visa-applications", visaApplicationRoutes);
 const expiringPassportsRoute = require("./analytics/expiringPassports");
 app.use("/expiring-passports", expiringPassportsRoute);
 
+const expiringVisasRoute = require("./analytics/expiringVisas");
+app.use("/expiring-visas", expiringVisasRoute);
+
 const passportsByParentRoute = require("./analytics/getPassportsByParent");
 app.use("/passports-by-parent", passportsByParentRoute);
 

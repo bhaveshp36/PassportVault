@@ -7,13 +7,14 @@ const Passport = require("../models/passport.model"); // Import Passport model
 router.get("/", async (req, res) => {
   try {
     // Calculate the date one year from now
+    const currentDate = new Date();
     const oneYearFromNow = new Date();
     oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
 
     // Fetch data from both collections
     const members = await Member.find({}, "surname givenName").lean();
     const passports = await Passport.find(
-      { dateOfExpiry: { $lte: oneYearFromNow } },
+      { dateOfExpiry: { $gte: currentDate, $lte: oneYearFromNow } },
       "parentMember_id passportNo dateOfExpiry"
     )
       .sort({ dateOfExpiry: 1 })
