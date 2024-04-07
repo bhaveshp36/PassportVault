@@ -5,6 +5,7 @@ import { Button, Card, Checkbox, Form, Input } from "antd";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -47,92 +48,53 @@ const Login = () => {
   };
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          width: "100vw",
-        }}
-      >
-        <Card
-          title="Login"
-          style={{
-            height: "60vh",
-            width: "60vw",
-            display: "grid",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+    <div className="login-page">
+      <div className="login-box">
+        <div className="illustration-wrapper">
+          <img
+            src="https://img.freepik.com/free-vector/hand-drawn-travel-background_52683-85109.jpg"
+            alt="Login"
+          />
+        </div>
+        <Form
+          name="login-form"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
         >
-          <Form
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
+          <p className="form-title">Welcome back! to Passport Vault</p>
+
+          <p>Login to the Dashboard</p>
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: "Please input your username!" }]}
           >
-            <Form.Item
-              label="Username"
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your username!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            <Input placeholder="Username" />
+          </Form.Item>
 
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password placeholder="Password" />
+          </Form.Item>
 
-            <Form.Item
-              name="remember"
-              valuePropName="checked"
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
+          <Form.Item name="remember" valuePropName="checked">
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
 
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
             >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
+              LOGIN
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
-    </>
+    </div>
   );
 };
 
