@@ -5,12 +5,8 @@ USER root
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
-
-# Move the COPY . . command before the chmod command
 COPY . .
 
-# Change the permissions of the files after they are copied
 RUN chmod -R 755 .
 
 RUN npm install -g npm@10.7.0
