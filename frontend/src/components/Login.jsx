@@ -62,7 +62,7 @@ const Login = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <p className="form-title">Welcome back! to Passport Vault</p>
+          <p className="form-title">Welcome! to Passport Vault</p>
 
           <p>Login to the Dashboard</p>
           <Form.Item
