@@ -13,6 +13,8 @@ COPY . .
 # Change the permissions of the files after they are copied
 RUN chmod -R 755 .
 
+RUN npm install -g npm@10.7.0
+
 RUN npm install -g vite
 
 RUN npm install
