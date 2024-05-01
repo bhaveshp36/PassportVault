@@ -19,7 +19,7 @@ RUN npm install -g vite
 
 RUN npm install
 
-RUN sudo chmod +x node_modules/.bin/vite
+RUN chmod +x node_modules/.bin/vite
 
 RUN npm run build
 
