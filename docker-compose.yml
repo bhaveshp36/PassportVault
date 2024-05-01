@@ -2,9 +2,14 @@ version: "3"
 services:
   backend:
     build: ./backend
+    restart: always
     ports:
       - "8000:8000"
   frontend:
     build: ./frontend
+    environment:
+      - VITE_BACKEND_URL=https://reimagined-fishstick-5rg9prvq6pp3pp66-8000.app.github.dev
+    depends_on:
+      - backend
     ports:
-      - "5000:5000"
+      - "5173:5173"
