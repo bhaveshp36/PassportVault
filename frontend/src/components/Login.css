@@ -30,7 +30,10 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #d9edff;
+  /* background: #d9edff; */
+  background-image: url("https://img.freepik.com/premium-vector/hand-drawn-travel-background_23-2149397488.jpg?w=1380");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .login-box {
   display: flex;

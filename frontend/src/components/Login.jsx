@@ -52,7 +52,7 @@ const Login = () => {
       <div className="login-box">
         <div className="illustration-wrapper">
           <img
-            src="https://img.freepik.com/free-vector/hand-drawn-travel-background_52683-85109.jpg"
+            src="https://img.freepik.com/free-vector/study-abroad-concept-illustration_114360-7613.jpg"
             alt="Login"
           />
         </div>
