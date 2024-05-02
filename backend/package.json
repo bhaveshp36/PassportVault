@@ -4,8 +4,8 @@
   "description": "Backend for Passport Vault",
   "main": "src/server.js",
   "scripts": {
-    "test": "nodemon --env-file=.env src/server.js",
-    "start": "node --env-file=.env src/server.js",
+    "start": "nodemon --env-file=.env src/server.js",
+    "test": "node --env-file=.env src/server.js",
     "deploy": "nodemon src/server.js"
   },
   "repository": {

@@ -1,17 +1,15 @@
 # frontend/Dockerfile
-FROM node:20
+FROM node:lts-alpine
 
 USER root
 
 WORKDIR /usr/src/app
 
-COPY . .
-
-RUN chmod -R 755 .
-
 RUN npm install -g npm@10.7.0
 
 RUN npm install -g vite
+
+COPY . .
 
 RUN npm install
 
