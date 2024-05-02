@@ -5,12 +5,7 @@ FROM ubuntu:latest
 RUN apt-get update
 
 # Install Node.js
-RUN apt install -y nodejs
-RUN apt install -y npm
-
-# Verify that Node.js and npm were installed correctly
-RUN node -v
-RUN npm -v
+RUN apt install -y nodejs npm
 
 WORKDIR /usr/src/app
 
@@ -27,4 +22,3 @@ RUN npm run build
 EXPOSE 8080
 
 CMD ["npm", "run", "preview"]
-
