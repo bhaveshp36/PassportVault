@@ -18,11 +18,11 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes //
 
-// admin routes
+// admin routes //
 const adminRoutes = require("./routes/admin.route");
 app.use("/login", adminRoutes);
 
-// Routes for the models
+//---------------------------------------- Routes for the models ------------------------------//
 const memberRoutes = require("./routes/member.route");
 app.use("/members", memberRoutes);
 
@@ -47,7 +47,7 @@ app.use("/visas", visaRoutes);
 const visaApplicationRoutes = require("./routes/visaApplication.route");
 app.use("/visa-applications", visaApplicationRoutes);
 
-// Analytics Route //
+//------------------------------ Analytics Route ---------------------------------------//
 const expiringPassportsRoute = require("./analytics/expiringPassports");
 app.use("/expiring-passports", expiringPassportsRoute);
 
@@ -59,6 +59,12 @@ app.use("/passports-by-parent", passportsByParentRoute);
 
 const visaByPassportRoute = require("./analytics/getVisaByParent");
 app.use("/visa-by-passport", visaByPassportRoute);
+
+const upcomingTravelPlanRoute = require("./analytics/upcomingTravelPlan");
+app.use("/upcoming-travel-plan", upcomingTravelPlanRoute);
+
+const visaApplicationStatusRoute = require("./analytics/visaApplicationStatus");
+app.use("/visa-application-status", visaApplicationStatusRoute);
 
 const fileRouter = require("./routes/files.route");
 app.use("/files", fileRouter);

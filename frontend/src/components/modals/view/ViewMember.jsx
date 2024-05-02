@@ -1,10 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Card, Spin } from "antd";
+import { Button, Card, Spin, Modal, message } from "antd";
 import axios from "axios";
 import { Collapse, Descriptions } from "antd";
 import Cookies from "js-cookie";
+
+import AddVisa from "../create/AddVisa";
+import AddPassport from "../create/AddPassport";
+import UpdatePassport from "../update/UpdatePassport";
+import UpdateVisa from "../update/UpdateVisa";
 
 const ViewMember = () => {
   const { id } = useParams();
@@ -18,6 +23,204 @@ const ViewMember = () => {
   const [expandIconPosition, setExpandIconPosition] = useState("start");
 
   const token = Cookies.get("token");
+
+  const handlePassportDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this Passport?",
+      content: "This action cannot be undone.",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          await axios.delete(
+            `${import.meta.env.VITE_BACKEND_URL}/passports/${id}`
+          );
+          // Refresh the page or fetch the data again here after deletion
+          message.success("Passport Deleted Successfully");
+        } catch (error) {
+          message.error("Error Deleting Passport");
+          console.error(error);
+        }
+      },
+    });
+  };
+
+  const handleVisaDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this Visa?",
+      content: "This action cannot be undone.",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/visas/${id}`);
+          // Refresh the page or fetch the data again here after deletion
+          message.success("Visa Deleted Successfully");
+        } catch (error) {
+          message.error("Error Deleting Visa");
+          console.error(error);
+        }
+      },
+    });
+  };
+
+  const handleAddPassport = (parent_id) => {
+    Modal.info({
+      title: "Add New Passport",
+      content: <AddPassport />,
+      onOk: () => {
+        Modal.destroyAll();
+      },
+      width: "60vw",
+      closable: true,
+      okText: "Close",
+    });
+  };
+
+  const handleAddVisa = (parent_id) => {
+    Modal.info({
+      title: "Add New Visa",
+      content: <AddVisa />,
+      onOk: () => {
+        Modal.destroyAll();
+      },
+      width: "60vw",
+      closable: true,
+      okText: "Close",
+    });
+  };
+
+  const handleEditPassport = (item) => {
+    Modal.info({
+      title: "Edit Passport",
+      content: (
+        <UpdatePassport
+          passportId={item._id}
+          onSubmit={(data) => {
+            console.log(data);
+            axios
+              .put(
+                `${import.meta.env.VITE_BACKEND_URL}/passports/${item._id}`,
+                data
+              )
+              .then((response) => {
+                console.log("Passport Record Updated: ", response.data);
+                message.success("Passport Record Updated Successfully");
+                Modal.destroyAll();
+              })
+              .catch((error) => {
+                console.error("Error in Updating Passport Record", error);
+                message.error("Error Updating Passport Record");
+              });
+          }}
+        />
+      ),
+      onOk: () => {
+        Modal.destroyAll();
+      },
+      width: "60vw",
+      closable: true,
+      okText: "Close",
+    });
+  };
+
+  const handleEditVisa = (item) => {
+    Modal.info({
+      title: "Edit Visa",
+      content: (
+        <UpdateVisa
+          visaId={item._id}
+          onSubmit={(data) => {
+            console.log(data);
+            axios
+              .put(
+                `${import.meta.env.VITE_BACKEND_URL}/visas/${item._id}`,
+                data
+              )
+              .then((response) => {
+                console.log("Visa Record Updated: ", response.data);
+                message.success("Visa Record Updated Successfully");
+                Modal.destroyAll();
+              })
+              .catch((error) => {
+                console.error("Error in Updating Visa Record", error);
+                message.error("Error Updating Visa Record");
+              });
+          }}
+        />
+      ),
+      onOk: () => {
+        Modal.destroyAll();
+      },
+      width: "60vw",
+      closable: true,
+      okText: "Close",
+    });
+  };
+
+  const genPassportExtra = (item) => (
+    <>
+      <span>
+        <a
+          onClick={(event) => {
+            console.log("getExtra:Clicked", event.altKey);
+            console.log("Item:", item);
+            handleEditPassport(item);
+            // If you don't want click extra trigger collapse, you can prevent this:
+            event.stopPropagation();
+          }}
+        >
+          Edit
+        </a>
+      </span>
+      <span style={{ marginLeft: "10px" }}>
+        <a
+          onClick={(event) => {
+            console.log("getExtra:Clicked", event.altKey);
+            console.log("Item:", item);
+            handlePassportDelete(item._id);
+            // If you don't want click extra trigger collapse, you can prevent this:
+            event.stopPropagation();
+          }}
+        >
+          Delete
+        </a>
+      </span>
+    </>
+  );
+
+  const genVisaExtra = (item) => (
+    <>
+      <span>
+        <a
+          onClick={(event) => {
+            console.log("getExtra:Clicked", event.altKey);
+            console.log("Item:", item);
+            handleEditVisa(item);
+            // If you don't want click extra trigger collapse, you can prevent this:
+            event.stopPropagation();
+          }}
+        >
+          Edit
+        </a>
+      </span>
+      <span style={{ marginLeft: "10px" }}>
+        <a
+          onClick={(event) => {
+            console.log("getExtra:Clicked", event.altKey);
+            console.log("Item:", item);
+            handleVisaDelete(item._id);
+            // If you don't want click extra trigger collapse, you can prevent this:
+            event.stopPropagation();
+          }}
+        >
+          Delete
+        </a>
+      </span>
+    </>
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,43 +297,6 @@ const ViewMember = () => {
     console.log(key);
   };
 
-  const NewPassport = () => {
-    console.log("New Passport");
-  };
-
-  const NewVisa = () => {
-    console.log("New Visa");
-  };
-
-  const genExtra = (item) => (
-    <>
-      <span>
-        <a
-          onClick={(event) => {
-            console.log("getExtra:Clicked", event.altKey);
-            console.log("Item:", item);
-            // If you don't want click extra trigger collapse, you can prevent this:
-            event.stopPropagation();
-          }}
-        >
-          Edit
-        </a>
-      </span>
-      <span style={{ marginLeft: "10px" }}>
-        <a
-          onClick={(event) => {
-            console.log("getExtra:Clicked", event.altKey);
-            console.log("Item:", item);
-            // If you don't want click extra trigger collapse, you can prevent this:
-            event.stopPropagation();
-          }}
-        >
-          Delete
-        </a>
-      </span>
-    </>
-  );
-
   const passportItems = passport.map((item, index) => {
     const visaItems = visa[index].map((item, index) => {
       const visaDescriptionItems = [
@@ -172,12 +338,16 @@ const ViewMember = () => {
         {
           key: 8,
           label: "Valid From",
-          children: item.validFrom,
+          children: item.validFrom
+            ? new Date(item.validFrom).toISOString().split("T")[0]
+            : item.validFrom,
         },
         {
           key: 9,
           label: "Valid Until",
-          children: item.validUntil,
+          children: item.validUntil
+            ? new Date(item.validUntil).toISOString().split("T")[0]
+            : item.validUntil,
         },
         {
           key: 10,
@@ -208,7 +378,7 @@ const ViewMember = () => {
 
       return {
         key: index,
-        label: `${item.country} | ${item.visaNo} | ${item.validUntil}`,
+        label: `${item.country} | ${item.visaNo} | ${item.validUntil ? new Date(item.validUntil).toISOString().split("T")[0] : item.validUntil}`,
         children: (
           <>
             <Descriptions
@@ -219,7 +389,7 @@ const ViewMember = () => {
             />
           </>
         ),
-        extra: genExtra(item),
+        extra: genVisaExtra(item),
       };
     });
 
@@ -237,12 +407,16 @@ const ViewMember = () => {
       {
         key: 3,
         label: "Date of Issue",
-        children: item.dateOfIssue,
+        children: item.dateOfIssue
+          ? new Date(item.dateOfIssue).toISOString().split("T")[0]
+          : item.dateOfIssue,
       },
       {
         key: 4,
         label: "Date of Expiry",
-        children: item.dateOfExpiry,
+        children: item.dateOfExpiry
+          ? new Date(item.dateOfExpiry).toISOString().split("T")[0]
+          : item.dateOfExpiry,
       },
       {
         key: 5,
@@ -262,7 +436,11 @@ const ViewMember = () => {
       {
         key: 8,
         label: "Previous Passport Date of Issue",
-        children: item.previousPassportDateOfIssue,
+        children: item.previousPassportDateOfIssue
+          ? new Date(item.previousPassportDateOfIssue)
+              .toISOString()
+              .split("T")[0]
+          : item.previousPassportDateOfIssue,
       },
       {
         key: 9,
@@ -293,7 +471,7 @@ const ViewMember = () => {
 
     return {
       key: index,
-      label: `${item.country} | ${item.passportNo} | ${item.dateOfExpiry}`,
+      label: `${item.country}     |     ${item.passportNo}      |     ${item.dateOfExpiry ? new Date(item.dateOfExpiry).toISOString().split("T")[0] : item.dateOfExpiry}`,
       children: (
         <>
           <Descriptions
@@ -306,7 +484,7 @@ const ViewMember = () => {
           <Card
             title="Visas"
             extra={
-              <Button type="primary" onClick={NewVisa}>
+              <Button type="primary" onClick={handleAddVisa}>
                 Add New Visa
               </Button>
             }
@@ -325,7 +503,7 @@ const ViewMember = () => {
           </Card>
         </>
       ),
-      extra: genExtra(item),
+      extra: genPassportExtra(item),
     };
   });
 
@@ -348,7 +526,9 @@ const ViewMember = () => {
     {
       key: 4,
       label: "Birth Date",
-      children: member.birthDate,
+      children: member.birthDate
+        ? new Date(member.birthDate).toISOString().split("T")[0]
+        : member.birthDate,
     },
     {
       key: 5,
@@ -391,7 +571,9 @@ const ViewMember = () => {
     {
       key: 11,
       label: "Joining Date",
-      children: member.joiningDate,
+      children: member.joiningDate
+        ? new Date(member.joiningDate).toISOString().split("T")[0]
+        : member.joiningDate,
     },
     {
       key: 12,
@@ -418,7 +600,9 @@ const ViewMember = () => {
 
   return (
     <>
-      <Card title={member.givenName + " " + member.surname}>
+      <Card
+        title={member.givenName + " " + member.surname + "     " + member._id}
+      >
         <div style={{ display: "grid" }}>
           {member ? (
             <div>
@@ -439,7 +623,7 @@ const ViewMember = () => {
         <Card
           title="Passports"
           extra={
-            <Button type="primary" onClick={NewPassport}>
+            <Button type="primary" onClick={handleAddPassport}>
               Add New Passport
             </Button>
           }

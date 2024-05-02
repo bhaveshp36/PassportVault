@@ -26,31 +26,35 @@ import LayoutComponent from "./Layout";
 const visaAppStatusColumns = [
   {
     title: "Name",
-    dataIndex: "givenName",
+    dataIndex: "member_id",
   },
   {
     title: "Country",
-    dataIndex: "surname",
+    dataIndex: "country",
   },
   {
-    title: "Visa Type",
-    dataIndex: "joiningDate",
+    title: "Last Updated",
+    dataIndex: "updatedAt",
+    render: (text, record) => {
+      const date = new Date(record.updatedAt);
+      return date.toISOString().split("T")[0];
+    },
   },
   {
     title: "Status",
-    dataIndex: "memberType",
+    dataIndex: "status",
     render: (status) => {
       let color;
-      if (status === "Witch") {
+      if (status === "rejected") {
         color = "volcano";
-      } else if (status === "Pending") {
+      } else if (status === "pending") {
         color = "yellow";
-      } else if (status === "Wizard") {
+      } else if (status === "approved") {
         color = "green";
       }
       return (
         <Tag color={color} key={status}>
-          {status.toUpperCase()}
+          {status ? status.toUpperCase() : ""}
         </Tag>
       );
     },
@@ -60,19 +64,27 @@ const visaAppStatusColumns = [
 const upcomingTravelColumns = [
   {
     title: "Name",
-    dataIndex: "givenName",
+    dataIndex: "travelPlanName",
   },
   {
     title: "Country",
-    dataIndex: "surname",
+    dataIndex: "country",
   },
   {
     title: "Date of Departure",
-    dataIndex: "memberType",
+    dataIndex: "dateOfDeparture",
+    render: (text, record) => {
+      const date = new Date(record.dateOfDeparture);
+      return date.toISOString().split("T")[0];
+    },
   },
   {
     title: "Date of Arrival",
-    dataIndex: "joiningDate",
+    dataIndex: "dateOfArrival",
+    render: (text, record) => {
+      const date = new Date(record.dateOfArrival);
+      return date.toISOString().split("T")[0];
+    },
   },
 ];
 const expiringVisaColumns = [
@@ -147,14 +159,14 @@ const App = () => {
       }
 
       const upcomingTravelResponse = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/members`
+        `${import.meta.env.VITE_BACKEND_URL}/upcoming-travel-plan`
       );
       if (upcomingTravelResponse.data) {
         setUpcomingTravelData(upcomingTravelResponse.data);
       }
 
       const visaApplicationStatusResponse = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/members`
+        `${import.meta.env.VITE_BACKEND_URL}/visa-application-status`
       );
       if (visaApplicationStatusResponse.data) {
         setVisaApplicationStatusData(visaApplicationStatusResponse.data);

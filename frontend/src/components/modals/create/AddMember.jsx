@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { App, Form, Input, Button, DatePicker, Upload } from "antd";
-import moment from "moment";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { UploadOutlined } from "@ant-design/icons";
@@ -68,7 +67,7 @@ const CreateMemberForm = ({ onSubmit }) => {
       })
       .catch((error) => {
         console.error("Error creating member:", error);
-        message.error("Error creating member")
+        message.error("Error creating member");
       });
   });
 
