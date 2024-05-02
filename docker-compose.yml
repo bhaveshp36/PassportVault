@@ -10,7 +10,7 @@ services:
     build: ./frontend
     image: deadlysin7/passportvault-frontend:latest
     environment:
-      - VITE_BACKEND_URL=https://reimagined-fishstick-5rg9prvq6pp3pp66-8000.app.github.dev
+      - VITE_BACKEND_URL=https://passportvault-backend-bhavesh-purohit-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com
     depends_on:
       - backend
     ports:
