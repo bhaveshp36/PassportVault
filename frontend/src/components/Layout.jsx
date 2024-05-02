@@ -4,6 +4,8 @@ import { useNavigate, useLocation, matchPath } from "react-router-dom";
 import LayoutContext from "./LayoutContext";
 import axios from "axios";
 
+import Cookies from "js-cookie";
+
 import {
   DesktopOutlined,
   FileOutlined,
@@ -14,7 +16,7 @@ import {
   BellOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme, Input, Space, Avatar, Dropdown } from "antd";
+import { Layout, Menu, theme, Input, Button, Modal } from "antd";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -57,6 +59,19 @@ const LayoutComponent = (
   const menuOnClick = (e) => {
     setSelectedMenu(e.key);
     navigate(`/${items[e.key - 1].path}`);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    navigate("/login");
+  };
+
+  const confirmLogout = () => {
+    Modal.confirm({
+      title: "Do you want to logout?",
+      onOk: handleLogout,
+      okType: "danger",
+    });
   };
 
   const handleSearch = async (value) => {
@@ -137,12 +152,15 @@ const LayoutComponent = (
               />
             </div>
 
-            <Avatar
-              shape="square"
-              size={"large"}
-              icon={<UserOutlined />}
+            <Button
+              danger
+              size="large"
               style={{ margin: 10 }}
-            />
+              icon={<LogoutOutlined />}
+              onClick={confirmLogout}
+            >
+              Logout
+            </Button>
           </Header>
           <Content style={{ margin: 0, padding: 16, background: colorSplit }}>
             {children}
