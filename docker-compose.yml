@@ -1,4 +1,3 @@
-version: "3"
 services:
   backend:
     build: ./backend
@@ -9,9 +8,10 @@ services:
   frontend:
     build: ./frontend
     image: deadlysin7/passportvault-frontend:latest
+    entrypoint: ["npm", "run", "preview"]
     environment:
       - VITE_BACKEND_URL=https://passportvault-backend-bhavesh-purohit-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com
     depends_on:
       - backend
     ports:
-      - "5173:5173"
+      - "8080:8080"

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --env-file=.env src/server.js",
     "test": "node --env-file=.env src/server.js",
-    "deploy": "nodemon src/server.js"
+    "deploy": "node --env-file=.env src/server.js"
   },
   "repository": {
     "type": "git",
